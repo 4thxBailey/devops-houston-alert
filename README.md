@@ -17,7 +17,7 @@ The engineering story behind [houstonalert.com](https://houstonalert.com) — a 
 | 🔵 | **Lionel Mosley** | [@trust-lionel](https://github.com/trust-lionel) | Backend · Data Pipelines · Architecture |
 | 🔷 | **Nigel Brooks** | [@brookstrades-glitch](https://github.com/brookstrades-glitch) | Frontend · PWA · Mobile · UX |
 
-Built at **[4th and Bailey LLC](https://github.com/4thxBailey/)** — Houston, TX.
+Built at **[4th and Bailey, LLC](https://github.com/4thxBailey/)** — Houston, TX.
 
 ---
 
@@ -233,7 +233,7 @@ To update the image: replace `og-image.png` at the repo root and push. Netlify r
 
 ## License & Attribution
 
-© 2026 **4th and Bailey LLC**. All rights reserved.
+© 2026 **4th and Bailey, LLC**. All rights reserved.
 
 Houston Alert is a **free public safety resource** for the Houston metropolitan area. The platform will remain free to access for every resident, indefinitely — no paywalls, no subscriptions, no advertising.
 
