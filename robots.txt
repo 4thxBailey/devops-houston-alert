@@ -1,0 +1,15 @@
+# robots.txt — devops.houstonalert.com
+# 4th and Bailey LLC · © 2026
+#
+# All crawlers welcome — this is a public engineering blog.
+# Sitemap submitted to Google Search Console and Bing Webmaster Tools.
+
+User-agent: *
+Allow: /
+
+# Block access to any future admin or private paths
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.env
+
+Sitemap: https://devops.houstonalert.com/sitemap.xml

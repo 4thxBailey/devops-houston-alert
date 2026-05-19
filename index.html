@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  Houston Alert · DevOps Blog                                     ║
+  ║  URL   : https://devops.houstonalert.com/                        ║
+  ║  Repo  : https://github.com/4thxBailey/devops-houston-alert      ║
+  ║  Org   : https://github.com/4thxBailey/                         ║
+  ║  Author: Lionel Mosley  — https://github.com/trust-lionel        ║
+  ║          Nigel Brooks   — https://github.com/brookstrades-glitch  ║
+  ║  © 2026 4th and Bailey LLC. All rights reserved.                 ║
+  ╠══════════════════════════════════════════════════════════════════╣
+  ║  DESIGN SYSTEM — index_v16.html Fluent 2 / M3 token layer       ║
+  ║  Primary   : #0f6cbd  Secondary : #115ea3                        ║
+  ║  Error     : #c50f1f  Warning   : #da3b01  Success : #107c10    ║
+  ║  Surfaces  : #ffffff → #f5f5f5 → #f0f0f0 → #ebebeb             ║
+  ║  Body font : Segoe UI (matches v16 exactly)                      ║
+  ╠══════════════════════════════════════════════════════════════════╣
+  ║  ANALYTICS — Replace placeholder IDs before deploying            ║
+  ║    GTM_ID  → GTM-XXXXXXX   (Google Tag Manager)                  ║
+  ║    GA4_ID  → G-XXXXXXXXXX  (Google Analytics 4)                  ║
+  ║    CLARITY → XXXXXXXXXX    (Microsoft Clarity)                   ║
+  ╠══════════════════════════════════════════════════════════════════╣
+  ║  REQUIRED: netlify.toml security headers — see netlify.toml      ║
+  ║  Verify at: https://securityheaders.com — target grade A+        ║
+  ╠══════════════════════════════════════════════════════════════════╣
+  ║  SEO CHECKLIST                                                    ║
+  ║    [ ] Submit sitemap.xml to Google Search Console                ║
+  ║    [ ] Submit sitemap.xml to Bing Webmaster Tools                 ║
+  ║    [ ] Confirm OG image at /og-image.png (1200×630px)            ║
+  ║    [ ] Test schema at https://validator.schema.org/               ║
+  ║    [ ] Test OG at https://developers.facebook.com/tools/debug    ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- GTM — replace GTM-XXXXXXX -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+
+<!-- PRIMARY META -->
+<title>How We Built Houston Alert — DevOps | 4th and Bailey</title>
+<meta name="description" content="The engineering story behind houstonalert.com — a real-time infrastructure monitoring platform for the Houston metro area. Built by Lionel Mosley and Nigel Brooks of 4th and Bailey LLC.">
+<meta name="keywords" content="Houston Alert DevOps, 4th and Bailey, Lionel Mosley, Nigel Brooks, real-time infrastructure monitoring, Houston emergency alerts, PWA development, web application architecture, Houston flood alerts">
+<meta name="author" content="Lionel Mosley, Nigel Brooks — 4th and Bailey LLC">
+<meta name="copyright" content="© 2026 4th and Bailey LLC. All rights reserved.">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<meta name="language" content="English">
+<meta name="revisit-after" content="7 days">
+<meta name="category" content="Software Engineering, DevOps, Web Development, Public Safety">
+<meta name="geo.region" content="US-TX">
+<meta name="geo.placename" content="Houston, Texas">
+<meta name="rating" content="general">
+
+<link rel="canonical" href="https://devops.houstonalert.com/">
+
+<!-- OPEN GRAPH -->
+<meta property="og:type"                content="article">
+<meta property="og:site_name"           content="Houston Alert DevOps">
+<meta property="og:title"               content="How We Built Houston Alert — A Real-Time City Warning System">
+<meta property="og:description"         content="The engineering story behind houstonalert.com: how Lionel Mosley and Nigel Brooks of 4th and Bailey built a live infrastructure monitoring platform covering 160 Houston metro ZIP codes.">
+<meta property="og:url"                 content="https://devops.houstonalert.com/">
+<meta property="og:locale"              content="en_US">
+<meta property="og:image"               content="https://devops.houstonalert.com/og-image.png">
+<meta property="og:image:secure_url"    content="https://devops.houstonalert.com/og-image.png">
+<meta property="og:image:width"         content="1200">
+<meta property="og:image:height"        content="630">
+<meta property="og:image:type"          content="image/png">
+<meta property="og:image:alt"           content="Houston Alert DevOps — Engineering story by 4th and Bailey">
+<meta property="article:published_time" content="2026-04-28T00:00:00-05:00">
+<meta property="article:modified_time"  content="2026-04-28T00:00:00-05:00">
+<meta property="article:author"         content="Lionel Mosley">
+<meta property="article:author"         content="Nigel Brooks">
+<meta property="article:section"        content="Engineering">
+<meta property="article:tag"            content="DevOps">
+<meta property="article:tag"            content="Houston">
+<meta property="article:tag"            content="PWA">
+<meta property="article:tag"            content="Real-Time Systems">
+
+<!-- TWITTER / X CARD -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@4thandBailey">
+<meta name="twitter:creator"     content="@4thandBailey">
+<meta name="twitter:title"       content="How We Built Houston Alert — 4th and Bailey">
+<meta name="twitter:description" content="160 ZIP codes, 6 live data sources, a PWA, and under $20/month to run. The full engineering story.">
+<meta name="twitter:image"       content="https://devops.houstonalert.com/og-image.png">
+<meta name="twitter:image:alt"   content="Houston Alert DevOps blog by 4th and Bailey">
+
+<!-- JSON-LD STRUCTURED DATA -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://devops.houstonalert.com/#article",
+      "headline": "How We Built Houston Alert — A Real-Time City Warning System",
+      "alternativeHeadline": "DevOps · Houston Alert Engineering Deep-Dive",
+      "description": "The engineering story behind houstonalert.com: how Lionel Mosley and Nigel Brooks of 4th and Bailey built a real-time infrastructure monitoring platform covering 160 Houston metro ZIP codes.",
+      "image": { "@type": "ImageObject", "url": "https://devops.houstonalert.com/og-image.png", "width": 1200, "height": 630 },
+      "url": "https://devops.houstonalert.com/",
+      "datePublished": "2026-04-28",
+      "dateModified": "2026-04-28",
+      "inLanguage": "en-US",
+      "keywords": ["Houston Alert","DevOps","PWA","real-time systems","infrastructure monitoring","4th and Bailey"],
+      "articleSection": "Engineering",
+      "proficiencyLevel": "Expert",
+      "author": [
+        {
+          "@type": "Person",
+          "@id": "https://github.com/trust-lionel",
+          "name": "Lionel Mosley",
+          "jobTitle": "Software Engineer",
+          "url": "https://github.com/trust-lionel",
+          "worksFor": { "@type": "Organization", "name": "4th and Bailey LLC", "url": "https://github.com/4thxBailey/" }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://github.com/brookstrades-glitch",
+          "name": "Nigel Brooks",
+          "jobTitle": "Software Engineer",
+          "url": "https://github.com/brookstrades-glitch",
+          "worksFor": { "@type": "Organization", "name": "4th and Bailey LLC", "url": "https://github.com/4thxBailey/" }
+        }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://github.com/4thxBailey/",
+        "name": "4th and Bailey LLC",
+        "url": "https://github.com/4thxBailey/",
+        "logo": { "@type": "ImageObject", "url": "https://4thandbailey.com/logo.png", "width": 400, "height": 100 }
+      },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://devops.houstonalert.com/" },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Houston Alert",
+        "url": "https://houstonalert.com",
+        "applicationCategory": "PublicSafetyApplication",
+        "operatingSystem": "Web, iOS, Android",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "codeRepository": "https://github.com/4thxBailey/devops-houston-alert"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://devops.houstonalert.com/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "4th and Bailey", "item": "https://github.com/4thxBailey/" },
+        { "@type": "ListItem", "position": 2, "name": "Houston Alert",  "item": "https://houstonalert.com" },
+        { "@type": "ListItem", "position": 3, "name": "DevOps Blog",    "item": "https://devops.houstonalert.com/" }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://github.com/4thxBailey/",
+      "name": "4th and Bailey LLC",
+      "url": "https://github.com/4thxBailey/",
+      "sameAs": ["https://twitter.com/4thandBailey", "https://github.com/4thxBailey/"],
+      "foundingLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Houston", "addressRegion": "TX", "addressCountry": "US" } }
+    }
+  ]
+}
+</script>
+
+<!-- Microsoft Clarity — add Project ID and uncomment -->
+<!--
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "XXXXXXXXXX");
+</script>
+-->
+
+<!-- FAVICONS -->
+<link rel="icon" type="image/png" sizes="32x32"  href="/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16"  href="/icons/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180"      href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon"              href="/favicon.ico">
+<meta name="theme-color" content="#0f6cbd">
+<meta name="msapplication-TileColor" content="#0f6cbd">
+
+<!-- DNS PREFETCH -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
+<link rel="dns-prefetch" href="https://www.clarity.ms">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Segoe UI is the v16 system font — Google Fonts fallback for non-Windows -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- sitemap: https://devops.houstonalert.com/sitemap.xml -->
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — index_v16.html Fluent 2 / Material 3 tokens
+   All color values extracted directly from :root in v16
+   Layout: blog post (single-column readable prose)
+═══════════════════════════════════════════════════════════════ */
+:root {
+  /* ── PRIMARY — Brand Blue (colorBrandBackground) ── */
+  --md-primary:             #0f6cbd;
+  --md-on-primary:          #ffffff;
+  --md-primary-container:   #ebf3fc;
+  --md-on-primary-container:#082338;
+
+  /* ── SECONDARY ── */
+  --md-secondary:           #115ea3;
+  --md-secondary-container: #cfe4fa;
+  --md-on-secondary-container:#0c3b5e;
+
+  /* ── TERTIARY — Cornflower ── */
+  --md-tertiary:            #4f6bed;
+  --md-tertiary-container:  #c8d1fa;
+  --md-on-tertiary-container:#2c3c85;
+
+  /* ── ERROR / DANGER — Cranberry ── */
+  --md-error:               #c50f1f;
+  --md-on-error:            #ffffff;
+  --md-error-container:     #fdf3f4;
+  --md-on-error-container:  #6e0811;
+
+  /* ── WARNING — Dark Orange ── */
+  --md-warning:             #da3b01;
+  --md-warning-container:   #fdf6f3;
+  --md-on-warning-container:#7a2101;
+
+  /* ── SUCCESS — Green ── */
+  --md-success:             #107c10;
+  --md-success-container:   #f1faf1;
+  --md-on-success-container:#094509;
+
+  /* ── NEUTRAL SURFACES — Fluent 2 grey scale ── */
+  --md-background:              #f5f5f5;
+  --md-on-background:           #242424;
+  --md-surface:                 #f5f5f5;
+  --md-on-surface:              #242424;
+  --md-on-surface-variant:      #616161;
+  --md-surface-container-lowest:#ffffff;
+  --md-surface-container-low:   #fafafa;
+  --md-surface-container:       #f5f5f5;
+  --md-surface-container-high:  #f0f0f0;
+  --md-surface-container-highest:#ebebeb;
+  --md-outline:                 #d1d1d1;
+  --md-outline-variant:         #e0e0e0;
+
+  /* ── TYPOGRAPHY SCALE (v16 exact) ── */
+  --ty-display-sm:  36px;
+  --ty-headline-lg: 32px;
+  --ty-headline-md: 28px;
+  --ty-headline-sm: 24px;
+  --ty-title-lg:    22px;
+  --ty-title-md:    16px;
+  --ty-title-sm:    14px;
+  --ty-body-lg:     16px;
+  --ty-body-md:     14px;
+  --ty-body-sm:     12px;
+  --ty-label-lg:    14px;
+  --ty-label-md:    12px;
+  --ty-label-sm:    11px;
+
+  /* ── SHAPE SCALE (v16 exact) ── */
+  --shape-xs:   4px;
+  --shape-sm:   8px;
+  --shape-md:   12px;
+  --shape-lg:   16px;
+  --shape-xl:   28px;
+  --shape-full: 9999px;
+
+  /* ── SPACING (4dp baseline, v16 exact) ── */
+  --sp-4: 4px; --sp-8: 8px; --sp-12: 12px; --sp-16: 16px;
+  --sp-20: 20px; --sp-24: 24px; --sp-32: 32px;
+
+  /* ── TIER SEMANTIC COLORS (v16 exact) ── */
+  --t1:#c50f1f; --t1bg:#fdf3f4; --t1c:#b10e1c;
+  --t2:#881798; --t2bg:#faf2fb; --t2c:#63276d;
+  --t3:#da3b01; --t3bg:#fdf6f3; --t3c:#a62d01;
+  --t4:#0f6cbd; --t4bg:#ebf3fc; --t4c:#0c3b5e;
+  --t5:#107c10; --t5bg:#f1faf1; --t5c:#094509;
+  --t6:#4f6bed; --t6bg:#f7f9fe; --t6c:#2c3c85;
+
+  /* ── BLOG LAYOUT ── */
+  --article-max: 740px;
+  --sidebar-w:   260px;
+  --gap:          40px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; scroll-behavior: smooth; }
+body {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Inter", Roboto, sans-serif;
+  background: var(--md-background);
+  color: var(--md-on-background);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+a { color: var(--md-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--md-outline-variant); border-radius: 2px; }
+
+/* ════════════════════════════════════════════
+   CHIP — exact v16 .chip classes
+════════════════════════════════════════════ */
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: var(--ty-label-sm); font-weight: 500; line-height: 1;
+  padding: 4px 8px; border-radius: var(--shape-full);
+  border: 1px solid var(--md-outline-variant);
+}
+.chip-primary   { background: var(--md-primary-container);   color: var(--md-on-primary-container);   border-color: transparent; }
+.chip-secondary { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-color: transparent; }
+.chip-tertiary  { background: var(--md-tertiary-container);  color: var(--md-on-tertiary-container);  border-color: transparent; }
+.chip-error     { background: var(--md-error-container);     color: var(--md-on-error-container);     border-color: transparent; }
+.chip-warn      { background: var(--md-warning-container);   color: var(--md-on-warning-container);   border-color: transparent; }
+.chip-ok        { background: var(--md-success-container);   color: var(--md-on-success-container);   border-color: transparent; }
+.chip-surface   { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); border-color: var(--md-outline-variant); }
+
+/* ════════════════════════════════════════════
+   TOP APP BAR — exact v16 .top-app-bar
+════════════════════════════════════════════ */
+.top-app-bar {
+  position: sticky; top: 0; z-index: 100;
+  height: 64px;
+  background: #0a0a0a;
+  display: flex; align-items: center;
+  padding: 0 var(--sp-16); gap: var(--sp-12);
+  border-bottom: 1px solid #1a1a1a;
+}
+.app-icon-m3 {
+  width: 32px; height: 32px; border-radius: var(--shape-sm);
+  background: var(--md-primary); color: var(--md-on-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; letter-spacing: .5px; flex-shrink: 0;
+}
+.app-wordmark {
+  font-size: var(--ty-title-lg); font-weight: 500;
+  color: #ffffff; display: flex; align-items: center; gap: var(--sp-8);
+}
+.wm-stack { display: flex; flex-direction: column; gap: 1px; }
+.wm-top { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .7px; line-height: 1; }
+.wm-sub { font-size: 11px; color: rgba(255,255,255,.35); line-height: 1; }
+.wm-div { width: 1px; height: 28px; background: rgba(255,255,255,.16); margin: 0 4px; }
+.live-indicator {
+  display: flex; align-items: center; gap: var(--sp-8);
+  padding: 4px var(--sp-12); border-radius: var(--shape-full);
+  background: rgba(255,255,255,.08);
+  font-size: var(--ty-label-md); color: rgba(255,255,255,.75);
+  border: 1px solid rgba(255,255,255,.15);
+}
+.live-dot-m3 { width: 6px; height: 6px; border-radius: 50%; background: var(--md-success); animation: lp 2s infinite; }
+@keyframes lp { 0%,100%{opacity:1} 50%{opacity:.3} }
+.top-right-m3 { margin-left: auto; display: flex; align-items: center; gap: var(--sp-12); }
+.top-chip-row { display: flex; align-items: center; gap: var(--sp-8); }
+.top-chip-ghost { background: rgba(255,255,255,.1); color: rgba(255,255,255,.82); border-color: rgba(255,255,255,.2); }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  font-size: var(--ty-label-md); font-weight: 500;
+  color: rgba(255,255,255,.7); padding: 6px 10px;
+  border-radius: var(--shape-sm); transition: background .12s, color .12s;
+}
+.nav-link:hover { background: rgba(255,255,255,.08); color: #fff; text-decoration: none; }
+@media (max-width: 680px) { .nav-links, .live-indicator { display: none; } }
+
+/* ════════════════════════════════════════════
+   BREADCRUMB — v16 command bar style
+════════════════════════════════════════════ */
+.breadcrumb-bar {
+  height: 40px; background: var(--md-surface-container-low);
+  display: flex; align-items: center;
+  padding: 0 var(--sp-16); gap: var(--sp-8);
+  border-bottom: 1px solid var(--md-outline-variant);
+  font-size: var(--ty-label-md); color: var(--md-on-surface-variant);
+  overflow-x: auto; white-space: nowrap;
+}
+.bc-sep { color: var(--md-outline); margin: 0 2px; }
+.bc-link { color: var(--md-primary); }
+.bc-link:hover { text-decoration: underline; }
+.bc-cur { color: var(--md-on-surface); font-weight: 500; }
+
+/* ════════════════════════════════════════════
+   PAGE LAYOUT — blog post with sticky ToC
+════════════════════════════════════════════ */
+.page-wrap {
+  max-width: calc(var(--article-max) + var(--sidebar-w) + var(--gap) + 80px);
+  margin: 0 auto;
+  padding: var(--sp-32) var(--sp-16) 80px;
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-w);
+  grid-template-areas: "article sidebar";
+  gap: var(--gap);
+  align-items: start;
+}
+@media (max-width: 1040px) {
+  .page-wrap { grid-template-columns: 1fr; grid-template-areas: "article"; }
+  .sidebar { display: none; }
+}
+
+/* ── ARTICLE ── */
+.article { grid-area: article; max-width: var(--article-max); }
+
+/* ── SIDEBAR ── */
+.sidebar { grid-area: sidebar; position: sticky; top: 80px; }
+
+/* ════════════════════════════════════════════
+   ARTICLE HEADER
+════════════════════════════════════════════ */
+.post-eyebrow {
+  display: flex; align-items: center; gap: var(--sp-8);
+  margin-bottom: var(--sp-12); flex-wrap: wrap;
+}
+.post-eyebrow-label {
+  font-size: var(--ty-label-sm); font-weight: 600;
+  color: var(--md-on-surface-variant); text-transform: uppercase; letter-spacing: .5px;
+}
+.post-title {
+  font-size: clamp(24px, 4vw, var(--ty-display-sm));
+  font-weight: 600;
+  color: var(--md-on-surface);
+  line-height: 1.15;
+  letter-spacing: -.3px;
+  margin-bottom: var(--sp-16);
+}
+.post-subtitle {
+  font-size: var(--ty-body-lg);
+  color: var(--md-on-surface-variant);
+  line-height: 1.55;
+  margin-bottom: var(--sp-24);
+  font-weight: 400;
+}
+
+/* ── BYLINE CARD ── */
+.byline-card {
+  display: flex; align-items: center; gap: var(--sp-12);
+  padding: var(--sp-12) var(--sp-16);
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--shape-md);
+  margin-bottom: var(--sp-24);
+  flex-wrap: wrap;
+  gap: var(--sp-12);
+}
+.byline-avatars { display: flex; }
+.byline-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--md-primary); color: var(--md-on-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  border: 2px solid var(--md-surface-container-lowest);
+  margin-left: -8px; flex-shrink: 0;
+}
+.byline-avatar:first-child { margin-left: 0; }
+.byline-avatar.sec { background: var(--md-secondary); }
+.byline-text { flex: 1; min-width: 160px; }
+.byline-names {
+  font-size: var(--ty-label-lg); font-weight: 600;
+  color: var(--md-on-surface); margin-bottom: 2px;
+}
+.byline-names a { color: var(--md-primary); }
+.byline-names a:hover { text-decoration: underline; }
+.byline-meta { font-size: var(--ty-label-sm); color: var(--md-on-surface-variant); }
+.byline-meta a { color: var(--md-on-surface-variant); }
+.byline-meta a:hover { color: var(--md-primary); text-decoration: underline; }
+.byline-chips { display: flex; gap: var(--sp-8); align-items: center; flex-wrap: wrap; }
+
+/* ── KPI STRIP — v16 .kpi-strip ── */
+.kpi-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--shape-md);
+  overflow: hidden;
+  margin-bottom: var(--sp-32);
+  background: var(--md-surface-container-lowest);
+}
+.kpi-cell {
+  padding: var(--sp-12) var(--sp-16);
+  border-right: 1px solid var(--md-outline-variant);
+}
+.kpi-cell:last-child { border-right: none; }
+.kpi-label {
+  font-size: var(--ty-label-sm); font-weight: 500;
+  color: var(--md-on-surface-variant); text-transform: uppercase;
+  letter-spacing: .5px; margin-bottom: 2px;
+}
+.kpi-value {
+  font-size: var(--ty-headline-md); font-weight: 400;
+  color: var(--md-on-surface); line-height: 1.1; margin-bottom: 2px;
+}
+.kpi-delta { font-size: var(--ty-label-sm); color: var(--md-on-surface-variant); }
+@media (max-width: 540px) { .kpi-strip { grid-template-columns: repeat(2,1fr); } .kpi-cell:nth-child(2) { border-right: none; } .kpi-cell:nth-child(1),.kpi-cell:nth-child(2) { border-bottom: 1px solid var(--md-outline-variant); } }
+
+/* ════════════════════════════════════════════
+   ARTICLE BODY TYPOGRAPHY
+════════════════════════════════════════════ */
+.post-body { font-size: var(--ty-body-lg); color: var(--md-on-surface); line-height: 1.75; }
+.post-body h2 {
+  font-size: var(--ty-headline-sm); font-weight: 600;
+  color: var(--md-on-surface); margin: var(--sp-32) 0 var(--sp-12);
+  padding-top: var(--sp-32); border-top: 1px solid var(--md-outline-variant);
+  display: flex; align-items: center; gap: var(--sp-12);
+  scroll-margin-top: 80px;
+}
+.post-body h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+.sec-num {
+  font-size: var(--ty-label-sm); font-weight: 600;
+  color: var(--md-on-surface-variant);
+  background: var(--md-surface-container-high);
+  padding: 2px 8px; border-radius: var(--shape-full);
+  letter-spacing: .4px; flex-shrink: 0;
+}
+.h2-line { flex: 1; height: 1px; background: var(--md-outline-variant); }
+.post-body h3 {
+  font-size: var(--ty-title-lg); font-weight: 600;
+  color: var(--md-on-surface);
+  margin: var(--sp-24) 0 var(--sp-8);
+}
+.post-body p { margin-bottom: var(--sp-16); }
+.post-body p:last-child { margin-bottom: 0; }
+.post-body strong { color: var(--md-on-surface); font-weight: 600; }
+
+/* ── PULL QUOTE — v16 confirm-box style ── */
+.pull-quote {
+  border-left: 3px solid var(--md-primary);
+  background: var(--md-primary-container);
+  border-radius: 0 var(--shape-md) var(--shape-md) 0;
+  padding: var(--sp-16) var(--sp-20);
+  margin: var(--sp-24) 0;
+}
+.pull-quote p {
+  font-size: var(--ty-title-md); font-weight: 500;
+  color: var(--md-on-primary-container);
+  line-height: 1.5; margin: 0;
+  font-style: italic;
+}
+.pull-quote cite {
+  display: block; margin-top: var(--sp-8);
+  font-size: var(--ty-label-sm); font-style: normal;
+  font-weight: 500; color: var(--md-secondary);
+}
+
+/* ── CARD — v16 surface card ── */
+.card {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--shape-md);
+  padding: var(--sp-16);
+  margin: var(--sp-16) 0;
+}
+.card-title {
+  font-size: var(--ty-title-sm); font-weight: 600;
+  color: var(--md-on-surface); margin-bottom: var(--sp-8);
+  display: flex; align-items: center; gap: var(--sp-8);
+}
+.card-title .card-icon {
+  width: 20px; height: 20px; border-radius: var(--shape-xs);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.card-body { font-size: var(--ty-body-md); color: var(--md-on-surface-variant); line-height: 1.6; }
+.card-body p { margin-bottom: var(--sp-8); }
+.card-body p:last-child { margin-bottom: 0; }
+
+/* Tier-colored card borders */
+.card-t1 { border-left: 3px solid var(--t1); }
+.card-t2 { border-left: 3px solid var(--t2); }
+.card-t3 { border-left: 3px solid var(--t3); }
+.card-t4 { border-left: 3px solid var(--t4); }
+.card-t5 { border-left: 3px solid var(--t5); }
+.card-t6 { border-left: 3px solid var(--t6); }
+
+/* ── CHALLENGE / SOLUTION PAIR ── */
+.challenge {
+  background: var(--md-error-container);
+  border: 1px solid transparent;
+  border-left: 3px solid var(--md-error);
+  border-radius: 0 var(--shape-md) var(--shape-md) 0;
+  padding: var(--sp-12) var(--sp-16);
+  margin-bottom: var(--sp-8);
+}
+.challenge-label {
+  font-size: var(--ty-label-sm); font-weight: 600;
+  color: var(--md-on-error-container); text-transform: uppercase;
+  letter-spacing: .5px; margin-bottom: var(--sp-4);
+}
+.challenge h3 {
+  font-size: var(--ty-title-sm); font-weight: 600;
+  color: var(--md-on-error-container); margin-bottom: var(--sp-8); margin-top: 0;
+}
+.challenge p { font-size: var(--ty-body-md); color: var(--md-on-error-container); margin: 0; }
+.solution {
+  background: var(--md-success-container);
+  border: 1px solid transparent;
+  border-left: 3px solid var(--md-success);
+  border-radius: 0 var(--shape-md) var(--shape-md) 0;
+  padding: var(--sp-12) var(--sp-16);
+  margin-bottom: var(--sp-24);
+}
+.solution-label {
+  font-size: var(--ty-label-sm); font-weight: 600;
+  color: var(--md-on-success-container); text-transform: uppercase;
+  letter-spacing: .5px; margin-bottom: var(--sp-4);
+}
+.solution p { font-size: var(--ty-body-md); color: var(--md-on-success-container); margin: 0; }
+
+/* ── STAT GRID — v16 kpi-cell pattern ── */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px; background: var(--md-outline-variant);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--shape-md); overflow: hidden;
+  margin: var(--sp-24) 0;
+}
+.stat-card {
+  background: var(--md-surface-container-lowest);
+  padding: var(--sp-16);
+}
+.stat-num {
+  font-size: var(--ty-headline-md); font-weight: 400;
+  color: var(--md-primary); line-height: 1; margin-bottom: 4px;
+}
+.stat-label {
+  font-size: var(--ty-label-sm); font-weight: 500;
+  color: var(--md-on-surface-variant);
+  text-transform: uppercase; letter-spacing: .4px;
+}
+
+/* ── CODE BLOCK ── */
+.code-wrap {
+  background: #0a0a0a;
+  border: 1px solid #1c1c1c;
+  border-radius: var(--shape-md);
+  overflow: hidden;
+  margin: var(--sp-16) 0;
+}
+.code-header {
+  background: #161616;
+  padding: var(--sp-8) var(--sp-16);
+  display: flex; align-items: center; gap: var(--sp-8);
+  border-bottom: 1px solid #1c1c1c;
+}
+.code-dot { width: 10px; height: 10px; border-radius: 50%; }
+.code-dot.r { background: #ff5f56; }
+.code-dot.y { background: #ffbd2e; }
+.code-dot.g { background: #27c93f; }
+.code-file { font-family: "Fira Code", "Consolas", monospace; font-size: var(--ty-label-sm); color: rgba(255,255,255,.4); margin-left: auto; }
+.code-wrap pre {
+  padding: var(--sp-16);
+  font-family: "Fira Code", "Consolas", monospace;
+  font-size: 13px; line-height: 1.65;
+  color: #e2e8f0; overflow-x: auto; white-space: pre;
+}
+.code-wrap pre .cm { color: #718096; }
+.code-wrap pre .str { color: #68d391; }
+.code-wrap pre .kw { color: #63b3ed; }
+.code-wrap pre .num { color: #fbd38d; }
+
+/* ── ARCHITECTURE DIAGRAM (text-based) ── */
+.arch-block {
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--shape-md);
+  overflow: hidden;
+  margin: var(--sp-16) 0;
+}
+.arch-row {
+  display: flex; align-items: center; gap: var(--sp-12);
+  padding: var(--sp-8) var(--sp-16);
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+.arch-row:last-child { border-bottom: none; }
+.arch-layer-label {
+  font-size: var(--ty-label-sm); font-weight: 500;
+  color: var(--md-on-surface-variant); text-transform: uppercase;
+  letter-spacing: .4px; width: 72px; flex-shrink: 0;
+}
+.arch-chips { display: flex; gap: var(--sp-8); flex-wrap: wrap; }
+.arch-arrow {
+  padding: var(--sp-4) var(--sp-16) var(--sp-4) calc(72px + var(--sp-12) + var(--sp-16));
+  font-size: var(--ty-label-sm); color: var(--md-on-surface-variant);
+  background: var(--md-surface-container);
+  border-bottom: 1px solid var(--md-outline-variant);
+  font-family: "Fira Code", monospace;
+}
+.arch-arrow:last-child { border-bottom: none; }
+
+/* ── SOURCE LIST — v16 story-item pattern ── */
+.source-list { list-style: none; margin: var(--sp-16) 0; }
+.source-item {
+  display: flex; align-items: flex-start; gap: var(--sp-12);
+  padding: var(--sp-12) 0;
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+.source-item:last-child { border-bottom: none; }
+.source-pip {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 5px;
+}
+.source-name {
+  font-size: var(--ty-title-sm); font-weight: 600;
+  color: var(--md-on-surface); margin-bottom: 3px;
+}
+.source-desc { font-size: var(--ty-body-md); color: var(--md-on-surface-variant); line-height: 1.55; }
+.source-meta { margin-left: auto; flex-shrink: 0; text-align: right; }
+.source-hz {
+  font-size: var(--ty-label-sm); font-weight: 600;
+  color: var(--md-primary); text-transform: uppercase;
+}
+.source-type { font-size: var(--ty-label-sm); color: var(--md-on-surface-variant); margin-top: 2px; }
+
+/* ── PWA FEATURE GRID ── */
+.feature-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--sp-12); margin: var(--sp-16) 0;
+}
+.feature-card {
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--shape-md);
+  padding: var(--sp-16);
+  transition: background .12s, border-color .12s;
+}
+.feature-card:hover { background: var(--md-surface-container); border-color: var(--md-outline); }
+.feature-icon { font-size: 20px; margin-bottom: var(--sp-8); }
+.feature-title { font-size: var(--ty-label-lg); font-weight: 600; color: var(--md-on-surface); margin-bottom: 4px; }
+.feature-body { font-size: var(--ty-body-sm); color: var(--md-on-surface-variant); line-height: 1.55; }
+
+/* ── TEAM CARDS ── */
+.team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp-16); margin: var(--sp-16) 0; }
+.team-card {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--shape-md);
+  padding: var(--sp-20);
+  border-top: 3px solid var(--md-primary);
+}
+.team-card.sec { border-top-color: var(--md-secondary); }
+.team-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--md-primary); color: var(--md-on-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; margin-bottom: var(--sp-12);
+  border: 2px solid var(--md-surface-container-high);
+}
+.team-avatar.sec { background: var(--md-secondary); }
+.team-name { font-size: var(--ty-headline-sm); font-weight: 600; color: var(--md-on-surface); margin-bottom: 2px; }
+.team-role { font-size: var(--ty-label-sm); font-weight: 500; color: var(--md-primary); text-transform: uppercase; letter-spacing: .4px; margin-bottom: var(--sp-12); }
+.team-role.sec { color: var(--md-secondary); }
+.team-bio { font-size: var(--ty-body-md); color: var(--md-on-surface-variant); line-height: 1.65; margin-bottom: var(--sp-12); }
+.team-links { display: flex; gap: var(--sp-8); flex-wrap: wrap; }
+.team-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: var(--ty-label-sm); font-weight: 500;
+  color: var(--md-primary); padding: 3px 8px;
+  background: var(--md-primary-container);
+  border-radius: var(--shape-full); border: 1px solid transparent;
+  transition: background .12s;
+}
+.team-link:hover { background: var(--md-secondary-container); text-decoration: none; }
+.team-link svg { width: 14px; height: 14px; }
+
+/* ── PROGRESS BARS — v16 .pbar-row ── */
+.pbar-section { margin: var(--sp-16) 0; }
+.pbar-row { display: flex; align-items: center; gap: var(--sp-8); margin-bottom: 4px; }
+.pbar-lbl { font-size: var(--ty-label-sm); color: var(--md-on-surface-variant); width: 90px; flex-shrink: 0; text-align: right; }
+.pbar-track { flex: 1; height: 8px; background: var(--md-surface-container-high); border-radius: var(--shape-full); overflow: hidden; }
+.pbar-fill { height: 100%; border-radius: var(--shape-full); }
+.pbar-val { font-size: var(--ty-label-sm); width: 32px; text-align: right; flex-shrink: 0; font-weight: 600; }
+
+/* ── TOAST — v16 .toast ── */
+.toast {
+  position: fixed; bottom: 20px; right: 20px; z-index: 300;
+  background: var(--md-on-surface); color: var(--md-surface);
+  padding: var(--sp-12) var(--sp-16); border-radius: var(--shape-full);
+  font-size: var(--ty-label-lg); display: flex; align-items: center; gap: var(--sp-8);
+  transform: translateY(60px); opacity: 0; transition: all .25s ease;
+  pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ════════════════════════════════════════════
+   SIDEBAR — v16 supporting pane style
+════════════════════════════════════════════ */
+.sidebar-card {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--shape-md);
+  overflow: hidden;
+  margin-bottom: var(--sp-16);
+}
+.sidebar-section {
+  padding: var(--sp-12);
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+.sidebar-section:last-child { border-bottom: none; }
+.sidebar-title {
+  font-size: var(--ty-label-sm); font-weight: 600;
+  color: var(--md-on-surface-variant); text-transform: uppercase;
+  letter-spacing: .4px; margin-bottom: var(--sp-8);
+}
+.toc-item {
+  display: flex; align-items: flex-start; gap: var(--sp-8);
+  padding: var(--sp-4) 0; cursor: pointer;
+  font-size: var(--ty-body-sm); color: var(--md-on-surface-variant);
+  border-left: 2px solid transparent;
+  padding-left: var(--sp-8);
+  transition: color .1s, border-color .1s;
+  text-decoration: none; display: block;
+}
+.toc-item:hover { color: var(--md-primary); border-left-color: var(--md-primary); text-decoration: none; }
+.toc-item.active { color: var(--md-primary); border-left-color: var(--md-primary); font-weight: 600; }
+.toc-num { font-size: var(--ty-label-sm); color: var(--md-outline); min-width: 20px; flex-shrink: 0; }
+.sp-stat { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--md-outline-variant); font-size: var(--ty-body-sm); }
+.sp-stat:last-child { border-bottom: none; }
+.sp-lbl { color: var(--md-on-surface-variant); }
+.sp-val { font-weight: 600; color: var(--md-on-surface); }
+.sp-val.ok { color: var(--md-success); }
+.sp-val.pri { color: var(--md-primary); }
+.risk-row { display: flex; align-items: flex-start; gap: var(--sp-8); padding: 6px 0; border-bottom: 1px solid var(--md-outline-variant); }
+.risk-row:last-child { border-bottom: none; }
+.risk-bar { width: 3px; border-radius: 2px; align-self: stretch; flex-shrink: 0; min-height: 26px; }
+.risk-name { font-size: var(--ty-body-sm); font-weight: 600; color: var(--md-on-surface); }
+.risk-sub { font-size: var(--ty-label-sm); color: var(--md-on-surface-variant); }
+.next-action-card {
+  background: var(--md-primary-container);
+  border-radius: var(--shape-md); padding: var(--sp-12);
+  border-left: 3px solid var(--md-primary);
+}
+.na-label { font-size: var(--ty-label-sm); font-weight: 600; color: var(--md-on-primary-container); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
+.na-text { font-size: var(--ty-body-sm); color: var(--md-on-primary-container); line-height: 1.45; }
+
+/* ── TIMELINE ── */
+.timeline { position: relative; margin: var(--sp-16) 0; padding-left: var(--sp-32); }
+.timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: linear-gradient(var(--md-primary), var(--md-outline-variant)); }
+.tl-item { position: relative; margin-bottom: var(--sp-20); }
+.tl-dot {
+  position: absolute; left: calc(-1 * var(--sp-32) + 4px); top: 3px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--md-primary); border: 2px solid var(--md-surface-container-lowest);
+  box-shadow: 0 0 0 2px var(--md-primary);
+}
+.tl-dot.ok { background: var(--md-success); box-shadow: 0 0 0 2px var(--md-success); }
+.tl-phase { font-size: var(--ty-label-sm); font-weight: 600; color: var(--md-primary); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
+.tl-phase.ok { color: var(--md-success); }
+.tl-title { font-size: var(--ty-title-sm); font-weight: 600; color: var(--md-on-surface); margin-bottom: var(--sp-4); }
+.tl-body { font-size: var(--ty-body-md); color: var(--md-on-surface-variant); line-height: 1.65; }
+
+/* ── BUTTON — v16 .btn ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: var(--sp-8) var(--sp-20);
+  border-radius: var(--shape-full);
+  font-size: var(--ty-label-lg); font-weight: 500;
+  border: none; cursor: pointer; font-family: inherit;
+  white-space: nowrap; transition: background .1s; text-decoration: none;
+}
+.btn-filled  { background: var(--md-primary); color: var(--md-on-primary); }
+.btn-filled:hover  { background: var(--md-secondary); text-decoration: none; color: var(--md-on-primary); }
+.btn-tonal   { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.btn-tonal:hover   { background: #b4d6fa; text-decoration: none; }
+.btn-outline { background: transparent; color: var(--md-primary); border: 1px solid var(--md-outline); padding: 7px var(--sp-20); }
+.btn-outline:hover { background: var(--md-surface-container); text-decoration: none; }
+.btn-sm { padding: 4px 12px; font-size: var(--ty-label-sm); }
+
+/* ════════════════════════════════════════════
+   FOOTER — v16 pattern
+════════════════════════════════════════════ */
+footer {
+  background: #0a0a0a;
+  border-top: 1px solid var(--md-outline-variant);
+  padding: var(--sp-32) var(--sp-16) var(--sp-24);
+}
+.footer-inner {
+  max-width: calc(var(--article-max) + var(--sidebar-w) + var(--gap) + 80px);
+  margin: 0 auto;
+  display: grid; grid-template-columns: 1fr auto; gap: var(--sp-32);
+  align-items: start; margin-bottom: var(--sp-24);
+}
+@media (max-width: 640px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-brand { font-size: var(--ty-title-lg); font-weight: 600; color: #fff; display: flex; align-items: center; gap: var(--sp-12); margin-bottom: var(--sp-8); }
+.footer-tagline { font-size: var(--ty-body-md); color: rgba(255,255,255,.5); margin-bottom: var(--sp-8); display: block; }
+.footer-copy { font-size: var(--ty-label-md); color: rgba(255,255,255,.35); line-height: 1.6; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: var(--sp-8); text-align: right; }
+@media (max-width: 640px) { .footer-links { text-align: left; flex-direction: row; flex-wrap: wrap; } }
+.footer-links a { font-size: var(--ty-label-md); color: rgba(255,255,255,.5); transition: color .2s; }
+.footer-links a:hover { color: var(--md-primary); text-decoration: none; }
+.footer-bottom {
+  max-width: calc(var(--article-max) + var(--sidebar-w) + var(--gap) + 80px);
+  margin: 0 auto; padding-top: var(--sp-16);
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--sp-8);
+}
+.footer-copy-sm { font-size: var(--ty-label-sm); color: rgba(255,255,255,.28); }
+.footer-badge { font-size: var(--ty-label-sm); color: var(--md-primary); border: 1px solid rgba(15,108,189,.35); padding: 3px 10px; border-radius: var(--shape-full); }
+
+/* ── SKIP LINK ── */
+.skip-link { position: absolute; top: -100%; left: 1rem; background: var(--md-primary); color: #fff; padding: 6px 12px; border-radius: var(--shape-sm); font-size: var(--ty-body-sm); z-index: 9999; transition: top .2s; }
+.skip-link:focus { top: 1rem; }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+
+<body>
+
+<!-- GTM noscript — replace GTM-XXXXXXX -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+
+<!-- DataLayer -->
+<script>
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  'event':'article_view','page_type':'devops_blog',
+  'article_title':'How We Built Houston Alert',
+  'article_author':'Lionel Mosley, Nigel Brooks',
+  'article_date':'2026-04-28','article_tags':'DevOps, Houston, PWA, Real-Time Systems',
+  'site_section':'engineering','brand':'4th and Bailey',
+  'github_repo':'https://github.com/4thxBailey/devops-houston-alert'
+});
+</script>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ═══════════════════════════════════════════
+     TOP APP BAR
+═══════════════════════════════════════════ -->
+<header>
+  <div class="top-app-bar" role="banner">
+    <div class="app-wordmark">
+      <div class="app-icon-m3" aria-hidden="true">HA</div>
+      <div class="wm-div" aria-hidden="true"></div>
+      <div class="wm-stack">
+        <span class="wm-top">Houston Alert</span>
+        <span class="wm-sub">DevOps Engineering Blog</span>
+      </div>
+    </div>
+
+    <nav class="nav-links" aria-label="Blog navigation">
+      <a href="#why" class="nav-link">Why We Built It</a>
+      <a href="#architecture" class="nav-link">Architecture</a>
+      <a href="#data" class="nav-link">Data Sources</a>
+      <a href="#challenges" class="nav-link">Challenges</a>
+      <a href="#pwa" class="nav-link">PWA</a>
+      <a href="#team" class="nav-link">Team</a>
+    </nav>
+
+    <div class="live-indicator" aria-label="Connection status">
+      <div class="live-dot-m3" aria-hidden="true"></div>
+      houstonalert.com · Live
+    </div>
+
+    <div class="top-right-m3">
+      <div class="top-chip-row">
+        <span class="chip top-chip-ghost">PWA · Production</span>
+        <span class="chip chip-ok">April 2026</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     BREADCRUMB BAR
+═══════════════════════════════════════════ -->
+<nav aria-label="Breadcrumb">
+  <div class="breadcrumb-bar">
+    <a href="https://github.com/4thxBailey/" class="bc-link" target="_blank" rel="noopener">4th and Bailey</a>
+    <span class="bc-sep" aria-hidden="true">/</span>
+    <a href="https://houstonalert.com" class="bc-link" target="_blank" rel="noopener">Houston Alert</a>
+    <span class="bc-sep" aria-hidden="true">/</span>
+    <a href="https://github.com/4thxBailey/devops-houston-alert" class="bc-link" target="_blank" rel="noopener">devops-houston-alert</a>
+    <span class="bc-sep" aria-hidden="true">/</span>
+    <span class="bc-cur">DevOps Blog</span>
+    <span style="margin-left:auto;display:flex;gap:8px">
+      <a href="https://github.com/4thxBailey/devops-houston-alert" target="_blank" rel="noopener" class="chip chip-surface" style="text-decoration:none">
+        <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub Repo
+      </a>
+    </span>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════ -->
+<main id="main">
+<div class="page-wrap">
+
+  <!-- ═══ ARTICLE ═══ -->
+  <article class="article" aria-labelledby="post-title">
+
+    <!-- Post header -->
+    <header>
+      <div class="post-eyebrow reveal">
+        <span class="chip chip-primary">Engineering Deep-Dive</span>
+        <span class="chip chip-surface">Houston, TX</span>
+        <span class="chip chip-ok">April 28, 2026</span>
+        <span class="post-eyebrow-label" style="margin-left:auto">8 min read</span>
+      </div>
+
+      <h1 class="post-title reveal" id="post-title">
+        How We Built Houston Alert — A Real-Time City Warning System
+      </h1>
+
+      <p class="post-subtitle reveal">
+        How two engineers at 4th and Bailey designed, built, and shipped a live
+        infrastructure monitoring platform covering 160 Houston metro ZIP codes —
+        from a blank terminal to a production PWA.
+      </p>
+
+      <!-- Byline -->
+      <div class="byline-card reveal">
+        <div class="byline-avatars">
+          <div class="byline-avatar" aria-hidden="true">LM</div>
+          <div class="byline-avatar sec" aria-hidden="true">NB</div>
+        </div>
+        <div class="byline-text">
+          <div class="byline-names">
+            <a href="https://github.com/trust-lionel" target="_blank" rel="noopener">Lionel Mosley</a>
+            &amp;
+            <a href="https://github.com/brookstrades-glitch" target="_blank" rel="noopener">Nigel Brooks</a>
+          </div>
+          <div class="byline-meta">
+            Software Engineers ·
+            <a href="https://github.com/4thxBailey/" target="_blank" rel="noopener">4th and Bailey LLC</a>
+            · Houston, TX
+          </div>
+        </div>
+        <div class="byline-chips">
+          <a href="https://github.com/4thxBailey/devops-houston-alert" target="_blank" rel="noopener" class="chip chip-surface" style="text-decoration:none">
+            <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            devops-houston-alert
+          </a>
+          <a href="https://houstonalert.com" target="_blank" rel="noopener" class="chip chip-primary" style="text-decoration:none">View live site →</a>
+        </div>
+      </div>
+
+      <!-- KPI Strip -->
+      <div class="kpi-strip reveal">
+        <div class="kpi-cell">
+          <div class="kpi-label">ZIP Codes</div>
+          <div class="kpi-value stat-num" data-target="160">160</div>
+          <div class="kpi-delta">Houston metro</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">Refresh Cycle</div>
+          <div class="kpi-value">60s</div>
+          <div class="kpi-delta">All data sources</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">Live Feeds</div>
+          <div class="kpi-value">6+</div>
+          <div class="kpi-delta">Unified pipeline</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-label">Monthly Cost</div>
+          <div class="kpi-value" style="color:var(--md-success)">&lt;$20</div>
+          <div class="kpi-delta">Full production infra</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════
+         POST BODY
+    ═══════════════════════════════ -->
+    <div class="post-body">
+
+      <!-- ── 01 THE PROBLEM ── -->
+      <section id="why" aria-labelledby="h-why">
+        <h2 id="h-why" class="reveal">
+          <span class="sec-num">01</span>
+          Houston Has a Real Infrastructure Problem
+          <span class="h2-line" aria-hidden="true"></span>
+        </h2>
+
+        <p class="reveal">We both grew up in and around Houston. We've watched the city flood, lose power, and sit in hours of standstill traffic — often all at the same time. What struck us wasn't the severity of the events themselves, but <strong>how poorly that information traveled to the people who needed it most.</strong></p>
+
+        <p class="reveal">During major weather events, Houstonians would frantically refresh social media, call relatives, and listen to the radio just to find out if their street was passable. Government alert channels were siloed. News coverage was reactive. There was no single place that pulled it all together in real time.</p>
+
+        <div class="stat-grid reveal">
+          <div class="stat-card">
+            <div class="stat-num">160</div>
+            <div class="stat-label">ZIP Codes Monitored</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">60s</div>
+            <div class="stat-label">Data Refresh Cycle</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">6+</div>
+            <div class="stat-label">Independent Data Sources</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--md-success)">$0</div>
+            <div class="stat-label">Cost to Users</div>
+          </div>
+        </div>
+
+        <div class="pull-quote reveal">
+          <p>We didn't want to build another weather app. We wanted to build the tool that would have helped our neighbors during Harvey, during the February freeze, during every flood season since.</p>
+          <cite>— Lionel Mosley, Co-Author</cite>
+        </div>
+
+        <div class="card card-t1 reveal">
+          <div class="card-title"><div class="card-icon" style="background:var(--t1bg);color:var(--t1)">🌊</div> Flash flooding with no warning</div>
+          <div class="card-body"><p>Harris County averages over 50 inches of rain per year. Flood events can become dangerous within minutes, yet residents often have no localized, real-time indication that their route is compromised. A flood alert from two hours ago is worse than no alert — it creates false confidence.</p></div>
+        </div>
+
+        <div class="card card-t3 reveal">
+          <div class="card-title"><div class="card-icon" style="background:var(--t3bg);color:var(--t3)">⚡</div> Power outage information deserts</div>
+          <div class="card-body"><p>During the February 2021 winter storm, millions lost power for days. Utility outage maps were overwhelmed or offline. People needed a survivability layer, not just a weather advisory.</p></div>
+        </div>
+
+        <div class="card card-t4 reveal">
+          <div class="card-title"><div class="card-icon" style="background:var(--t4bg);color:var(--t4)">🚗</div> Traffic &amp; road incident blindspots</div>
+          <div class="card-body"><p>Houston has one of the most complex highway systems in the United States. A single accident on I-10 or the Katy Freeway can cascade into hours of gridlock — with no aggregate view of the full picture available to residents.</p></div>
+        </div>
+
+        <div class="card card-t2 reveal">
+          <div class="card-title"><div class="card-icon" style="background:var(--t2bg);color:var(--t2)">📡</div> Fragmented official channels</div>
+          <div class="card-body"><p>Emergency alerts lived across TxDOT dashboards, NWS feeds, county flood warnings, and 311 systems — none of them talking to each other, all requiring separate monitoring by an individual citizen.</p></div>
+        </div>
+      </section>
+
+      <!-- ── 02 THE DECISION ── -->
+      <section id="decision" aria-labelledby="h-decision">
+        <h2 id="h-decision" class="reveal">
+          <span class="sec-num">02</span>
+          Why 4th and Bailey Decided to Build It
+          <span class="h2-line" aria-hidden="true"></span>
+        </h2>
+
+        <p class="reveal">Nigel and I had been working together on data infrastructure projects for a few years before Houston Alert became a real conversation. The idea crystallized during a weekend in early 2025 when a water main break near Midtown created a three-hour traffic situation that we only learned about after we were already sitting in it.</p>
+
+        <p class="reveal">We asked ourselves: all of this data is public. Government agencies publish it. Stream gauges are online. Road incident APIs exist. Social platforms surface real-world events within minutes. <strong>Why is nobody stitching it together for Houston residents?</strong></p>
+
+        <p class="reveal">The answer was that it's technically non-trivial to do well. Merging heterogeneous data sources with different schemas, refresh rates, coordinate systems, and reliability characteristics requires genuine engineering effort. That's exactly the kind of problem we enjoy. We started prototyping the same weekend.</p>
+
+        <h3 class="reveal">Three non-negotiables before writing a line of code</h3>
+
+        <div class="timeline reveal">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-phase">Non-Negotiable 01</div>
+              <div class="tl-title">Free for users, forever</div>
+              <div class="tl-body">No paywalls, no subscription tiers, no ads. Public safety information belongs to the public. We committed to keeping Houston Alert free to access for every Houston resident, indefinitely.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-phase">Non-Negotiable 02</div>
+              <div class="tl-title">Works on any device</div>
+              <div class="tl-body">A warning system that only works on a laptop is not a warning system. From the beginning we designed for mobile-first, targeting the full range of devices Houstonians actually use — including older Android phones and Safari on iOS.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot ok"></div>
+            <div>
+              <div class="tl-phase ok">Non-Negotiable 03</div>
+              <div class="tl-title">Data must be current, not cached</div>
+              <div class="tl-body">A flood alert from two hours ago is worse than no alert at all — it creates false confidence. Every data source needed a live polling cycle, with the UI always showing the freshest available state. Sixty-second refresh cycles became the baseline.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 03 ARCHITECTURE ── -->
+      <section id="architecture" aria-labelledby="h-arch">
+        <h2 id="h-arch" class="reveal">
+          <span class="sec-num">03</span>
+          The System We Designed
+          <span class="h2-line" aria-hidden="true"></span>
+        </h2>
+
+        <p class="reveal">We'll talk about principles and patterns here rather than naming specific vendor products — this architecture is intentionally portable and the structural decisions matter more than the specific tooling.</p>
+
+        <div class="arch-block reveal">
+          <div class="arch-row">
+            <span class="arch-layer-label">Browser</span>
+            <div class="arch-chips">
+              <span class="chip chip-primary">PWA · houstonalert.com</span>
+              <span class="chip chip-surface">Interactive Map</span>
+              <span class="chip chip-surface">Live Feed Panel</span>
+              <span class="chip chip-surface">ZIP Filter</span>
+            </div>
+          </div>
+          <div class="arch-arrow">↕ CDN Edge → API Proxy</div>
+          <div class="arch-row">
+            <span class="arch-layer-label">Frontend</span>
+            <div class="arch-chips">
+              <span class="chip chip-surface">Static Site Delivery</span>
+              <span class="chip chip-surface">Global CDN</span>
+              <span class="chip chip-surface">/api/* → Backend</span>
+            </div>
+          </div>
+          <div class="arch-arrow">↕ HTTPS</div>
+          <div class="arch-row">
+            <span class="arch-layer-label">Backend</span>
+            <div class="arch-chips">
+              <span class="chip chip-secondary">Event Aggregation Server · Node / Express</span>
+            </div>
+          </div>
+          <div class="arch-arrow">↕ 60s Scheduler · In-Memory Store · Dedup Engine</div>
+          <div class="arch-row">
+            <span class="arch-layer-label">Pollers</span>
+            <div class="arch-chips">
+              <span class="chip chip-warn">Road Conditions</span>
+              <span class="chip chip-warn">NWS Weather</span>
+              <span class="chip chip-warn">Flood Gauges</span>
+              <span class="chip chip-warn">Seismic</span>
+              <span class="chip chip-warn">TxDOT</span>
+              <span class="chip chip-error">Social Signals</span>
+            </div>
+          </div>
+          <div class="arch-arrow">↕ External APIs (Public + Authenticated)</div>
+          <div class="arch-row">
+            <span class="arch-layer-label">Sources</span>
+            <div class="arch-chips">
+              <span class="chip chip-surface">ArcGIS</span>
+              <span class="chip chip-surface">USGS NWIS</span>
+              <span class="chip chip-surface">NWS REST</span>
+              <span class="chip chip-surface">DriveTexas</span>
+              <span class="chip chip-surface">X API v2</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="reveal">Key architectural decisions</h3>
+
+        <div class="card card-t4 reveal">
+          <div class="card-title">In-memory event store</div>
+          <div class="card-body">
+            <p>We chose an in-memory store with a 6-hour TTL and a 2,000-event cap over a traditional database. For a real-time feed, write latency matters more than persistence. Events older than 6 hours are no longer actionable — stale data misleads.</p>
+            <div style="margin-top:8px"><span class="chip chip-surface">6hr TTL</span> <span class="chip chip-surface">2,000 event cap</span> <span class="chip chip-surface">dedup by ID</span></div>
+          </div>
+        </div>
+
+        <div class="card card-t4 reveal">
+          <div class="card-title">Scheduled polling over webhooks</div>
+          <div class="card-body">
+            <p>Not all government APIs support webhooks. Scheduled polling on a tight cycle was the only reliable cross-source architecture. We run pollers every 60 seconds for most sources, with a 5-minute cycle for sources with stricter rate limits.</p>
+            <div style="margin-top:8px"><span class="chip chip-surface">60s standard</span> <span class="chip chip-warn">30s severe weather mode</span></div>
+          </div>
+        </div>
+
+        <div class="card card-t4 reveal">
+          <div class="card-title">Deterministic deduplication</div>
+          <div class="card-body">
+            <p>The same road incident can appear in multiple sources simultaneously. Our deduplication engine uses deterministic ID generation — identical events from different sources produce the same hash, preventing the map from clustering duplicate pins.</p>
+            <div style="margin-top:8px"><span class="chip chip-surface">FNV-1a hash</span> <span class="chip chip-surface">source-agnostic IDs</span> <span class="chip chip-surface">300m radius merge</span></div>
+          </div>
+        </div>
+
+        <div class="card card-t4 reveal">
+          <div class="card-title">Confidence scoring</div>
+          <div class="card-body">
+            <p>Official government sources receive verified status. Social signals are weighted by post volume, keyword specificity, and geographic precision. The UI surfaces this as a confidence percentage so users can assess source quality at a glance.</p>
+            <div style="margin-top:8px"><span class="chip chip-surface">0–100%</span> <span class="chip chip-surface">visual ring color coding</span></div>
+          </div>
+        </div>
+
+        <div class="pbar-section reveal">
+          <h3>Confidence by source type</h3>
+          <div class="pbar-row">
+            <span class="pbar-lbl">Verified gov</span>
+            <div class="pbar-track"><div class="pbar-fill" style="width:95%;background:var(--md-success)"></div></div>
+            <span class="pbar-val" style="color:var(--md-success)">95%</span>
+          </div>
+          <div class="pbar-row">
+            <span class="pbar-lbl">NWS / NOAA</span>
+            <div class="pbar-track"><div class="pbar-fill" style="width:90%;background:var(--md-primary)"></div></div>
+            <span class="pbar-val" style="color:var(--md-primary)">90%</span>
+          </div>
+          <div class="pbar-row">
+            <span class="pbar-lbl">USGS gauges</span>
+            <div class="pbar-track"><div class="pbar-fill" style="width:88%;background:var(--md-primary)"></div></div>
+            <span class="pbar-val" style="color:var(--md-primary)">88%</span>
+          </div>
+          <div class="pbar-row">
+            <span class="pbar-lbl">Social signals</span>
+            <div class="pbar-track"><div class="pbar-fill" style="width:42%;background:var(--md-warning)"></div></div>
+            <span class="pbar-val" style="color:var(--md-warning)">42%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 04 DATA SOURCES ── -->
+      <section id="data" aria-labelledby="h-data">
+        <h2 id="h-data" class="reveal">
+          <span class="sec-num">04</span>
+          Six Feeds. One Coherent Picture.
+          <span class="h2-line" aria-hidden="true"></span>
+        </h2>
+
+        <p class="reveal">Every data source we integrated required custom handling. Different schemas, different coordinate formats, different reliability profiles, different authentication models.</p>
+
+        <div class="pull-quote reveal" style="border-left-color:var(--md-secondary);background:var(--md-secondary-container)">
+          <p style="color:var(--md-on-secondary-container)">The most interesting engineering problem wasn't fetching the data. It was building a trust model that lets a citizen distinguish between a verified TxDOT closure and an unconfirmed community report — at a glance, under stress.</p>
+          <cite style="color:var(--md-secondary)">— Nigel Brooks, Co-Author</cite>
+        </div>
+
+        <ul class="source-list reveal" role="list">
+          <li class="source-item">
+            <div class="source-pip" style="background:#38bdf8"></div>
+            <div>
+              <div class="source-name">Houston TranStar — Road &amp; Traffic</div>
+              <div class="source-desc">The regional traffic management authority for the Houston metro. TranStar operates 24/7 and monitors incident data from freeway sensors, cameras, and law enforcement dispatch. Our highest-trust source for accident and lane-closure events.</div>
+            </div>
+            <div class="source-meta"><div class="source-hz">60s</div><div class="source-type">Official · Verified</div></div>
+          </li>
+          <li class="source-item">
+            <div class="source-pip" style="background:#fb923c"></div>
+            <div>
+              <div class="source-name">TxDOT — Construction &amp; Lane Closures</div>
+              <div class="source-desc">Texas Department of Transportation publishes construction activity through ArcGIS REST endpoints. Construction zones significantly affect routing on major arteries like I-10, 290, and the Beltway, and they change frequently.</div>
+            </div>
+            <div class="source-meta"><div class="source-hz">60s</div><div class="source-type">Official · ArcGIS</div></div>
+          </li>
+          <li class="source-item">
+            <div class="source-pip" style="background:#a78bfa"></div>
+            <div>
+              <div class="source-name">National Weather Service — Weather Alerts</div>
+              <div class="source-desc">NWS publishes active warnings, watches, and advisories via a public REST API with polygon coverage areas. We filter for Harris, Fort Bend, Galveston, Brazoria, Montgomery, and Waller counties. During severe weather we drop to a 30-second polling cycle.</div>
+            </div>
+            <div class="source-meta"><div class="source-hz">60s / 30s</div><div class="source-type">Federal · NOAA</div></div>
+          </li>
+          <li class="source-item">
+            <div class="source-pip" style="background:#34d399"></div>
+            <div>
+              <div class="source-name">Harris County FWS — Stream Gauges</div>
+              <div class="source-desc">HCFWS operates a network of stream gauges across Harris County bayous and creeks. We pull gauge readings via the USGS National Water Information System and map them against flood stage thresholds to surface at-risk waterways in real time.</div>
+            </div>
+            <div class="source-meta"><div class="source-hz">60s</div><div class="source-type">Official · USGS NWIS</div></div>
+          </li>
+          <li class="source-item">
+            <div class="source-pip" style="background:#f87171"></div>
+            <div>
+              <div class="source-name">USGS Earthquake Catalog — Seismic Activity</div>
+              <div class="source-desc">The Gulf Coast region has experienced induced seismicity events in recent years. We monitor the USGS earthquake catalog for events within the Houston bounding box, providing early awareness of ground-motion events that may affect infrastructure.</div>
+            </div>
+            <div class="source-meta"><div class="source-hz">60s</div><div class="source-type">Federal · FDSN</div></div>
+          </li>
+          <li class="source-item">
+            <div class="source-pip" style="background:var(--md-warning)"></div>
+            <div>
+              <div class="source-name">Social Signal Layer — Community Reports</div>
+              <div class="source-desc">Real-world events appear on social platforms before official sources acknowledge them. We ingest recent posts filtered to Houston geography and run keyword classification across 8 incident categories — from flooding and power outages to gas leaks and structural damage.</div>
+            </div>
+            <div class="source-meta"><div class="source-hz">5min</div><div class="source-type">Social · Auth Required</div></div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ── 05 HARD PROBLEMS ── -->
+      <section id="challenges" aria-labelledby="h-challenges">
+        <h2 id="h-challenges" class="reveal">
+          <span class="sec-num">05</span>
+          What Actually Took Time
+          <span class="h2-line" aria-hidden="true"></span>
+        </h2>
+
+        <div class="challenge reveal">
+          <div class="challenge-label">Challenge</div>
+          <h3>Cross-source event deduplication at scale</h3>
+          <p>The same freeway accident shows up in TranStar, TxDOT, the social layer, and sometimes NWS in rapid succession. Naive deduplication by title string failed on minor text variations. Coordinate-radius deduplication failed across sources with different precision.</p>
+        </div>
+        <div class="solution reveal">
+          <div class="solution-label">↳ How we solved it</div>
+          <p>We moved to deterministic ID generation using a hash of the event's canonical location bucket, category, and source-type. Events within 300 meters of the same category from any source resolve to the same ID and are merged rather than duplicated. The UI shows the highest-trust source for any merged event.</p>
+        </div>
+
+        <div class="challenge reveal">
+          <div class="challenge-label">Challenge</div>
+          <h3>iOS Safari touch event routing failure</h3>
+          <p>On iPhones and iPads, backdrop-filter CSS on overlay elements caused iOS's Metal compositor to misroute touch events to the map layer beneath, making every button in the interface unresponsive. This was extremely difficult to reproduce in emulation — it only appeared on physical devices.</p>
+        </div>
+        <div class="solution reveal">
+          <div class="solution-label">↳ How we solved it</div>
+          <p>We stripped <code style="font-family:'Fira Code',monospace;font-size:13px;background:var(--md-surface-container-high);padding:1px 5px;border-radius:3px">backdrop-filter</code> from all overlay elements on viewports under 900px, replacing with high-opacity solid backgrounds that are visually identical. We also removed <code style="font-family:'Fira Code',monospace;font-size:13px;background:var(--md-surface-container-high);padding:1px 5px;border-radius:3px">filter</code> from map tile layers at mobile breakpoints, which was creating additional compositor layers that worsened the hit-testing issue.</p>
+        </div>
+
+        <div class="challenge reveal">
+          <div class="challenge-label">Challenge</div>
+          <h3>Map readability during mass-event weather</h3>
+          <p>During a major storm we could receive 200+ concurrent events all within the same metropolitan area. An unmanaged map becomes an unusable cluster of pins that conveys no meaningful information.</p>
+        </div>
+        <div class="solution reveal">
+          <div class="solution-label">↳ How we solved it</div>
+          <p>We implemented geographic clustering with dynamic radii — clusters tighten at low zoom and expand at high zoom, displaying event counts. Clicking a cluster either zooms to reveal it or spiderfies tightly-packed events. High-severity events break out of clusters at lower zoom levels than routine incidents.</p>
+        </div>
+
+        <div class="challenge reveal">
+          <div class="challenge-label">Challenge</div>
+          <h3>Keeping infrastructure costs near zero</h3>
+          <p>A platform that goes viral during a hurricane could receive 50,000 concurrent users. We couldn't absorb unpredictable cloud compute costs for a free public service with no monetization model.</p>
+        </div>
+        <div class="solution reveal">
+          <div class="solution-label">↳ How we solved it</div>
+          <p>The frontend is fully static — no server-side rendering, no compute on page loads. All the intelligence lives in the backend scheduler that runs continuously at low cost. API responses are small JSON payloads. Map tiles are served from a CDN-backed public tile provider. Our total monthly infrastructure cost for a production deployment is under $20.</p>
+        </div>
+      </section>
+
+      <!-- ── 06 PWA ── -->
+      <section id="pwa" aria-labelledby="h-pwa">
+        <h2 id="h-pwa" class="reveal">
+          <span class="sec-num">06</span>
+          Why We Built a PWA, Not a Native App
+          <span class="h2-line" aria-hidden="true"></span>
+        </h2>
+
+        <p class="reveal">This was a deliberate and consequential architectural choice. A native app requires installation friction, review cycles, and ongoing maintenance across platform versions. A PWA requires none of that — it's a URL you share, a bookmark on your home screen, and a notification permission if the user consents.</p>
+
+        <p class="reveal">For an emergency information tool, <strong>zero installation friction is not a nice-to-have — it's a core safety feature.</strong> During a hurricane, you don't wait for an app to download. You send someone a link and they're looking at real-time data within seconds.</p>
+
+        <div class="feature-grid reveal">
+          <div class="feature-card">
+            <div class="feature-icon">📲</div>
+            <div class="feature-title">Home screen install</div>
+            <div class="feature-body">Users can add Houston Alert to their home screen via browser prompt — no App Store required, no account needed.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔔</div>
+            <div class="feature-title">Push notifications</div>
+            <div class="feature-body">Users who grant notification permission receive high-severity alerts even when the tab is in the background.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📍</div>
+            <div class="feature-title">Geolocation aware</div>
+            <div class="feature-body">The map can fly to the user's current location with a single tap, surfacing events in their immediate area.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-title">Instant load</div>
+            <div class="feature-body">Static delivery via CDN means the interface loads in under a second globally — critical when seconds matter.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <div class="feature-title">Any device</div>
+            <div class="feature-body">Fully responsive from a 320px iPhone SE to a 27" desktop monitor. Custom iOS Metal workarounds ensure touch events work correctly.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔗</div>
+            <div class="feature-title">Deep linkable events</div>
+            <div class="feature-body">Every event generates a shareable short URL. Send anyone a direct link to a specific incident — they open the map already focused on it.</div>
+          </div>
+        </div>
+
+        <div class="code-wrap reveal">
+          <div class="code-header">
+            <div class="code-dot r"></div>
+            <div class="code-dot y"></div>
+            <div class="code-dot g"></div>
+            <span class="code-file">manifest.json — PWA configuration</span>
+          </div>
+          <pre><span class="cm">// Web App Manifest — enables home screen install + splash screen</span>
+{
+  <span class="str">"name"</span>: <span class="str">"Houston Alert"</span>,
+  <span class="str">"short_name"</span>: <span class="str">"Houston Alert"</span>,
+  <span class="str">"description"</span>: <span class="str">"Real-time infrastructure alerts · 160 Houston ZIP codes"</span>,
+  <span class="str">"start_url"</span>: <span class="str">"/"</span>,
+  <span class="str">"display"</span>: <span class="str">"standalone"</span>,
+  <span class="str">"background_color"</span>: <span class="str">"#f5f5f5"</span>,
+  <span class="str">"theme_color"</span>: <span class="str">"#0f6cbd"</span>,
+  <span class="str">"orientation"</span>: <span class="str">"any"</span>,
+  <span class="str">"icons"</span>: [
+    { <span class="str">"src"</span>: <span class="str">"/icons/icon-192.png"</span>, <span class="str">"sizes"</span>: <span class="str">"192x192"</span>, <span class="str">"type"</span>: <span class="str">"image/png"</span> },
+    { <span class="str">"src"</span>: <span class="str">"/icons/icon-512.png"</span>, <span class="str">"sizes"</span>: <span class="str">"512x512"</span>, <span class="str">"type"</span>: <span class="str">"image/png"</span> }
+  ]
+}</pre>
+        </div>
+      </section>
+
+      <!-- ── 07 ROADMAP ── -->
+      <section id="next" aria-labelledby="h-next">
+        <h2 id="h-next" class="reveal">
+          <span class="sec-num">07</span>
+          What's Next
+          <span class="h2-line" aria-hidden="true"></span>
+        </h2>
+
+        <div class="timeline reveal">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-phase">Near Term</div>
+              <div class="tl-title">Community Reporting</div>
+              <div class="tl-body">Let verified Houston residents submit events directly — pothole reports, power outages, road blockages — with automatic confidence scoring against existing verified sources. Citizen-sourced data, not anonymous noise.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-phase">Mid Term</div>
+              <div class="tl-title">ZIP Code Subscriptions</div>
+              <div class="tl-body">Persistent notification subscriptions by ZIP code. Rather than blanket alerts, residents get notified about events relevant to their neighborhood, commute route, or school zone.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot ok"></div>
+            <div>
+              <div class="tl-phase ok">Longer Term</div>
+              <div class="tl-title">Historical Pattern Analysis</div>
+              <div class="tl-body">Six months of continuous data will let us build flood-likelihood models for specific bayous and streets based on rainfall rate. Predictive alerts — "Brays Bayou typically exceeds flood stage 40 minutes after this rain rate begins" — are more valuable than reactive ones.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 08 TEAM ── -->
+      <section id="team" aria-labelledby="h-team">
+        <h2 id="h-team" class="reveal">
+          <span class="sec-num">08</span>
+          Built by Two Engineers Who Call Houston Home
+          <span class="h2-line" aria-hidden="true"></span>
+        </h2>
+
+        <div class="team-grid reveal">
+          <div class="team-card">
+            <div class="team-avatar" aria-hidden="true">LM</div>
+            <div class="team-name">Lionel Mosley</div>
+            <div class="team-role">Software Engineer · Backend Lead</div>
+            <div class="team-bio">Lionel leads backend infrastructure and data pipeline architecture at 4th and Bailey. He designed the multi-source aggregation engine, the confidence scoring system, and the event deduplication logic that makes Houston Alert's map coherent even during major weather events with hundreds of simultaneous incidents. His obsession with low-latency systems and public-interest technology made him the right engineer to tackle the challenge of merging half a dozen heterogeneous government APIs into a single coherent data stream.</div>
+            <div class="team-links">
+              <a href="https://github.com/trust-lionel" target="_blank" rel="noopener" class="team-link">
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                github.com/trust-lionel
+              </a>
+            </div>
+          </div>
+
+          <div class="team-card sec">
+            <div class="team-avatar sec" aria-hidden="true">NB</div>
+            <div class="team-name">Nigel Brooks</div>
+            <div class="team-role sec">Software Engineer · Frontend Lead</div>
+            <div class="team-bio">Nigel owns frontend architecture, mobile optimization, and the user experience design across Houston Alert. He built the responsive interface from scratch, authored the iOS Safari compositor workarounds that make the platform actually usable on iPhones, and implemented the PWA layer that enables home-screen installation and push notifications. Nigel kept asking: "what does someone in a flooding neighborhood actually need to see, and can they see it in under three seconds on their phone?"</div>
+            <div class="team-links">
+              <a href="https://github.com/brookstrades-glitch" target="_blank" rel="noopener" class="team-link">
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                github.com/brookstrades-glitch
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pull-quote reveal" style="border-left-color:var(--md-success);background:var(--md-success-container);margin-top:var(--sp-24)">
+          <p style="color:var(--md-on-success-container)">4th and Bailey exists to build things that matter in the communities we're part of. Houston Alert isn't a side project. It's an obligation.</p>
+          <cite style="color:var(--md-success)">— Lionel Mosley &amp; Nigel Brooks · <a href="https://github.com/4thxBailey/" target="_blank" rel="noopener" style="color:var(--md-success)">4th and Bailey LLC</a></cite>
+        </div>
+      </section>
+
+    </div><!-- /post-body -->
+  </article>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar" aria-label="Article sidebar">
+
+    <!-- Table of contents -->
+    <div class="sidebar-card">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Contents</div>
+        <a href="#why"          class="toc-item" onclick="setActive(this)">01 — The Problem</a>
+        <a href="#decision"     class="toc-item" onclick="setActive(this)">02 — The Decision</a>
+        <a href="#architecture" class="toc-item" onclick="setActive(this)">03 — Architecture</a>
+        <a href="#data"         class="toc-item" onclick="setActive(this)">04 — Data Sources</a>
+        <a href="#challenges"   class="toc-item" onclick="setActive(this)">05 — Hard Problems</a>
+        <a href="#pwa"          class="toc-item" onclick="setActive(this)">06 — PWA</a>
+        <a href="#next"         class="toc-item" onclick="setActive(this)">07 — Roadmap</a>
+        <a href="#team"         class="toc-item" onclick="setActive(this)">08 — The Team</a>
+      </div>
+    </div>
+
+    <!-- Article stats -->
+    <div class="sidebar-card">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Article stats</div>
+        <div class="sp-stat"><span class="sp-lbl">Published</span><span class="sp-val">Apr 28, 2026</span></div>
+        <div class="sp-stat"><span class="sp-lbl">Read time</span><span class="sp-val">8 min</span></div>
+        <div class="sp-stat"><span class="sp-lbl">Sections</span><span class="sp-val">8</span></div>
+        <div class="sp-stat"><span class="sp-lbl">Authors</span><span class="sp-val">2</span></div>
+        <div class="sp-stat"><span class="sp-lbl">SEO</span><span class="sp-val ok">A+ · Indexed</span></div>
+        <div class="sp-stat"><span class="sp-lbl">Schema</span><span class="sp-val ok">TechArticle ✓</span></div>
+      </div>
+    </div>
+
+    <!-- Live system status -->
+    <div class="sidebar-card">
+      <div class="sidebar-section">
+        <div class="sidebar-title" style="display:flex;justify-content:space-between">
+          System status
+          <span class="chip chip-ok" style="font-size:10px">Live</span>
+        </div>
+        <div class="risk-row">
+          <div class="risk-bar" style="background:var(--md-success)"></div>
+          <div><div class="risk-name">TranStar · TxDOT</div><div class="risk-sub">Road &amp; traffic · 60s · nominal</div></div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-bar" style="background:var(--md-primary)"></div>
+          <div><div class="risk-name">NWS · NOAA</div><div class="risk-sub">Weather alerts · 30s · nominal</div></div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-bar" style="background:var(--md-tertiary)"></div>
+          <div><div class="risk-name">USGS NWIS</div><div class="risk-sub">Stream gauges · 60s · nominal</div></div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-bar" style="background:var(--md-warning)"></div>
+          <div><div class="risk-name">Social signals</div><div class="risk-sub">X API · 5min · rate-limited</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next action / CTA -->
+    <div class="sidebar-card">
+      <div class="sidebar-section">
+        <div class="next-action-card">
+          <div class="na-label">View the live site</div>
+          <div class="na-text">Houston Alert is free, open, and running right now for all 160 Houston metro ZIP codes.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+          <a href="https://houstonalert.com" target="_blank" rel="noopener" class="btn btn-filled btn-sm" style="justify-content:center">Open houstonalert.com →</a>
+          <a href="https://github.com/4thxBailey/devops-houston-alert" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="justify-content:center">
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Authors quick links -->
+    <div class="sidebar-card">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Authors</div>
+        <div class="risk-row">
+          <div class="byline-avatar" style="width:28px;height:28px;font-size:10px;flex-shrink:0" aria-hidden="true">LM</div>
+          <div>
+            <div class="risk-name"><a href="https://github.com/trust-lionel" target="_blank" rel="noopener">Lionel Mosley</a></div>
+            <div class="risk-sub">Backend · Data pipelines</div>
+          </div>
+        </div>
+        <div class="risk-row">
+          <div class="byline-avatar sec" style="width:28px;height:28px;font-size:10px;flex-shrink:0" aria-hidden="true">NB</div>
+          <div>
+            <div class="risk-name"><a href="https://github.com/brookstrades-glitch" target="_blank" rel="noopener">Nigel Brooks</a></div>
+            <div class="risk-sub">Frontend · PWA · Mobile</div>
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <a href="https://github.com/4thxBailey/" target="_blank" rel="noopener" class="chip chip-surface" style="text-decoration:none;display:inline-flex;align-items:center;gap:4px">
+            <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            4thxBailey
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+</div><!-- /page-wrap -->
+</main>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <div class="app-icon-m3" aria-hidden="true">4B</div>
+        4th and Bailey
+      </div>
+      <span class="footer-tagline">Building things that matter in Houston.</span>
+      <p class="footer-copy">
+        Houston Alert is a free public safety resource for the Houston metropolitan area.<br>
+        Powered by TranStar · TxDOT · NWS · HCFWS · USGS · X API.<br>
+        Repository: <a href="https://github.com/4thxBailey/devops-houston-alert" target="_blank" rel="noopener" style="color:var(--md-primary)">github.com/4thxBailey/devops-houston-alert</a>
+      </p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://houstonalert.com" target="_blank" rel="noopener">houstonalert.com</a></li>
+      <li><a href="https://devops.houstonalert.com">devops.houstonalert.com</a></li>
+      <li><a href="https://github.com/4thxBailey/" target="_blank" rel="noopener">github.com/4thxBailey</a></li>
+      <li><a href="https://github.com/trust-lionel" target="_blank" rel="noopener">@trust-lionel</a></li>
+      <li><a href="https://github.com/brookstrades-glitch" target="_blank" rel="noopener">@brookstrades-glitch</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy-sm">© 2026 4th and Bailey LLC. All rights reserved.</span>
+    <span class="footer-badge">Houston, TX · devops.houstonalert.com</span>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════ -->
+<script>
+/* SCROLL REVEAL */
+const ro = new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');ro.unobserve(x.target);}});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ACTIVE TOC ITEM */
+function setActive(el){
+  document.querySelectorAll('.toc-item').forEach(a=>a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* TOC — scroll spy */
+(function(){
+  const headings = document.querySelectorAll('.post-body section[id]');
+  const toc = document.querySelectorAll('.toc-item');
+  const spy = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id = e.target.getAttribute('id');
+        toc.forEach(a=>{
+          a.classList.toggle('active', a.getAttribute('href')==='#'+id);
+        });
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  headings.forEach(h=>spy.observe(h));
+})();
+
+/* STAT COUNT-UP */
+function animCount(el,target,sfx=''){
+  let s=0;const d=1600;
+  const step=ts=>{if(!s)s=ts;const p=Math.min((ts-s)/d,1);const e=1-Math.pow(1-p,3);el.textContent=Math.floor(e*target)+sfx;if(p<1)requestAnimationFrame(step);else el.textContent=target+sfx;};
+  requestAnimationFrame(step);
+}
+const co=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.querySelectorAll('.stat-num').forEach(n=>{const t=n.textContent.trim();if(t==='$0')return;if(t.endsWith('s'))animCount(n,parseInt(t),'s');else if(t.endsWith('+'))animCount(n,parseInt(t),'+');else animCount(n,parseInt(t));});co.unobserve(x.target);}});},{threshold:.3});
+document.querySelectorAll('.stat-grid').forEach(el=>co.observe(el));
+
+/* GTM / GA4 TRACKING */
+// 1. Scroll depth
+(function(){const depths=[25,50,75,90,100];const fired=new Set();function pct(){const e=document.documentElement;const s=e.scrollTop||document.body.scrollTop;const t=e.scrollHeight-e.clientHeight;return t>0?Math.round(s/t*100):0;}window.addEventListener('scroll',function(){const p=pct();depths.forEach(d=>{if(p>=d&&!fired.has(d)){fired.add(d);window.dataLayer=window.dataLayer||[];window.dataLayer.push({'event':'scroll_depth','depth_pct':d,'page_type':'devops_blog'});}});},{passive:true});})();
+
+// 2. Section engagement
+(function(){const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){window.dataLayer=window.dataLayer||[];window.dataLayer.push({'event':'section_view','section_id':x.target.id,'page_type':'devops_blog'});o.unobserve(x.target);}});},{threshold:.3});document.querySelectorAll('section[id]').forEach(s=>o.observe(s));})();
+
+// 3. Outbound links
+(function(){document.addEventListener('click',function(e){const a=e.target.closest('a[href]');if(!a)return;const h=a.getAttribute('href');if(h&&!h.startsWith('#')&&!h.startsWith('/')&&!h.includes('devops.houstonalert.com')){window.dataLayer=window.dataLayer||[];window.dataLayer.push({'event':'outbound_click','link_url':h,'link_text':a.textContent.trim().slice(0,60),'page_type':'devops_blog'});}});})();
+
+// 4. Time on page
+(function(){[30,60,180,300].forEach(sec=>{setTimeout(()=>{window.dataLayer=window.dataLayer||[];window.dataLayer.push({'event':'time_on_page','seconds':sec,'page_type':'devops_blog'});},sec*1000);});})();
+</script>
+</body>
+</html>
