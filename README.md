@@ -4,7 +4,7 @@
 
 > **Live site:** [devops.houstonalert.com](https://devops.houstonalert.com)  
 > **Product:** [houstonalert.com](https://houstonalert.com)  
-> **Organization:** [4th and Bailey](https://github.com/4thxBailey/)
+> **Organization:** [4th and Bailey](https://github.com/4thandBailey/)
 
 The engineering story behind [houstonalert.com](https://houstonalert.com) — a real-time infrastructure monitoring platform covering 160 Houston metro ZIP codes. This repository contains the source code for the DevOps blog published at `devops.houstonalert.com`.
 
