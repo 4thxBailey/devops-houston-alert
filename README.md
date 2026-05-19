@@ -1,5 +1,7 @@
 # Houston Alert — DevOps Engineering Blog
 
+[![og-image](https://raw.githubusercontent.com/4thxBailey/devops-houston-alert/main/og-image.png)](https://devops.houstonalert.com)
+
 > **Live site:** [devops.houstonalert.com](https://devops.houstonalert.com)  
 > **Product:** [houstonalert.com](https://houstonalert.com)  
 > **Organization:** [4th and Bailey](https://github.com/4thxBailey/)
@@ -212,6 +214,20 @@ All events push to `window.dataLayer`. GTM reads them and fires GA4 events.
 - [ ] **Community Reporting** — let verified Houston residents submit events with automatic confidence scoring
 - [ ] **ZIP Code Subscriptions** — persistent push notifications by neighborhood, commute route, or school zone
 - [ ] **Historical Pattern Analysis** — flood-likelihood models for specific bayous based on continuous rainfall data
+
+---
+
+## Social Preview
+
+The `og-image.png` at the repo root serves three purposes:
+
+**1. GitHub repository social preview** — displayed at the top of this README and automatically used by GitHub when the repo is shared on social platforms. Update it in **Settings → Social preview** if you want GitHub to use it as the repo card image too.
+
+**2. Blog post hero image** — rendered directly on the page between the byline and the KPI strip, giving readers and Google a visible, crawlable image.
+
+**3. Open Graph & Twitter card** — referenced in `<meta property="og:image">` and `<meta name="twitter:image">` so shares on LinkedIn, X, Slack, iMessage, and Discord all render the full 1200×630px preview card.
+
+To update the image: replace `og-image.png` at the repo root and push. Netlify redeploys in under 60 seconds. Then force-rescrape the URL at [developers.facebook.com/tools/debug](https://developers.facebook.com/tools/debug) to clear cached previews.
 
 ---
 
