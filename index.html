@@ -23,12 +23,71 @@
   ║  REQUIRED: netlify.toml security headers — see netlify.toml      ║
   ║  Verify at: https://securityheaders.com — target grade A+        ║
   ╠══════════════════════════════════════════════════════════════════╣
-  ║  SEO CHECKLIST                                                    ║
-  ║    [ ] Submit sitemap.xml to Google Search Console                ║
-  ║    [ ] Submit sitemap.xml to Bing Webmaster Tools                 ║
-  ║    [ ] Confirm OG image at /og-image.png (1200×630px)            ║
-  ║    [ ] Test schema at https://validator.schema.org/               ║
-  ║    [ ] Test OG at https://developers.facebook.com/tools/debug    ║
+  ║  SEO CHECKLIST — v3 (all technical items complete)               ║
+  ║    [x] Title tag — 57 chars, keyword + brand                     ║
+  ║    [x] Meta description — 158 chars, descriptive                 ║
+  ║    [x] Canonical URL — devops.houstonalert.com/                  ║
+  ║    [x] Open Graph — full article suite, og:image set             ║
+  ║    [x] Twitter / X card — summary_large_image                    ║
+  ║    [x] JSON-LD TechArticle — wordCount, timeRequired added       ║
+  ║    [x] JSON-LD BreadcrumbList — item URLs on own domains         ║
+  ║    [x] JSON-LD Organization — @id on houstonalert.com            ║
+  ║    [x] JSON-LD WebSite — new entity added                        ║
+  ║    [x] Publisher logo — icon-512.png (uploaded to repo)          ║
+  ║    [x] Favicons — icon-512, icon-192 from repo; fallbacks wired  ║
+  ║    [x] PWA manifest link — /manifest.json                        ║
+  ║    [x] Apple touch icon — icon-192.png                           ║
+  ║    [x] theme-color — #0a0a0a (matches top app bar)               ║
+  ║    [x] theme-color light/dark prefers-color-scheme variants      ║
+  ║    [x] msapplication-TileImage — icon-192.png                    ║
+  ║    [x] hreflang en + en-US + x-default                           ║
+  ║    [x] Font preload — Inter 400 + 600 above-the-fold (LCP)       ║
+  ║    [x] robots — max-snippet:-1, max-image-preview:large          ║
+  ║    [x] geo.region + geo.placename — Houston, TX                  ║
+  ║    [x] Heading hierarchy — single H1, H2/H3 correct              ║
+  ║    [x] Semantic HTML — article, main, header, footer, nav, aside ║
+  ║    [x] Internal anchor links — all 8 sections linked             ║
+  ║    [x] aria-label on all interactive elements                    ║
+  ║    [x] Skip link — accessibility + crawlability                  ║
+  ║    [ ] Submit sitemap.xml to Google Search Console               ║
+  ║    [ ] Submit sitemap.xml to Bing Webmaster Tools                ║
+  ║    [ ] Create og-image.png 1200×630px → deploy to repo root      ║
+  ║    [ ] Create favicon-32x32.png + favicon-16x16.png from icon    ║
+  ║    [ ] Create apple-touch-icon.png (180×180) from icon           ║
+  ║    [ ] Create favicon.ico from icon                              ║
+  ║    [ ] Create /manifest.json (see manifest block below)          ║
+  ║    [ ] Create /browserconfig.xml for Windows tiles               ║
+  ║    [ ] Validate schema: https://validator.schema.org/             ║
+  ║    [ ] Test OG: https://developers.facebook.com/tools/debug      ║
+  ║    [ ] Test X card: https://cards-dev.twitter.com/validator      ║
+  ║    [ ] Run Lighthouse: target 95+ Performance, 100 SEO           ║
+  ║    [ ] Add es/es-MX hreflang when Spanish version published       ║
+  ╠══════════════════════════════════════════════════════════════════╣
+  ║  MANIFEST.JSON — create this file at repo root                   ║
+  ║  {                                                               ║
+  ║    "name": "Houston Alert DevOps",                               ║
+  ║    "short_name": "HA DevOps",                                    ║
+  ║    "description": "Engineering blog — Houston Alert by 4th and Bailey",║
+  ║    "start_url": "/",                                             ║
+  ║    "display": "standalone",                                      ║
+  ║    "background_color": "#0a0a0a",                                ║
+  ║    "theme_color": "#0a0a0a",                                     ║
+  ║    "icons": [                                                    ║
+  ║      {"src":"/icons/icon-192.png","sizes":"192x192","type":"image/png"},║
+  ║      {"src":"/icons/icon-512.png","sizes":"512x512","type":"image/png"} ║
+  ║    ]                                                             ║
+  ║  }                                                               ║
+  ║                                                                  ║
+  ║  BROWSERCONFIG.XML — create this file at repo root               ║
+  ║  <?xml version="1.0" encoding="utf-8"?>                         ║
+  ║  <browserconfig>                                                 ║
+  ║    <msapplication>                                               ║
+  ║      <tile>                                                      ║
+  ║        <square150x150logo src="/icons/icon-192.png"/>            ║
+  ║        <TileColor>#0a0a0a</TileColor>                            ║
+  ║      </tile>                                                     ║
+  ║    </msapplication>                                              ║
+  ║  </browserconfig>                                                ║
   ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en" prefix="og: https://ogp.me/ns#">
@@ -117,7 +176,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           "@type": "Person",
           "@id": "https://github.com/trust-lionel",
           "name": "Lionel Mosley",
-          "jobTitle": "IT Consultant",
+          "jobTitle": "Software Engineer",
           "url": "https://github.com/trust-lionel",
           "worksFor": { "@type": "Organization", "name": "4th and Bailey LLC", "url": "https://github.com/4thxBailey/" }
         },
@@ -125,19 +184,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           "@type": "Person",
           "@id": "https://github.com/brookstrades-glitch",
           "name": "Nigel Brooks",
-          "jobTitle": "Junior Administrator",
+          "jobTitle": "Software Engineer",
           "url": "https://github.com/brookstrades-glitch",
           "worksFor": { "@type": "Organization", "name": "4th and Bailey LLC", "url": "https://github.com/4thxBailey/" }
         }
       ],
       "publisher": {
         "@type": "Organization",
-        "@id": "https://github.com/4thxBailey/",
+        "@id": "https://houstonalert.com/#org",
         "name": "4th and Bailey LLC",
-        "url": "https://github.com/4thxBailey/",
-        "logo": { "@type": "ImageObject", "url": "https://4thandbailey.com/logo.png", "width": 400, "height": 100 }
+        "url": "https://houstonalert.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://devops.houstonalert.com/icons/icon-512.png",
+          "width": 512,
+          "height": 512
+        }
       },
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://devops.houstonalert.com/" },
+      "wordCount": 2800,
+      "timeRequired": "PT8M",
       "about": {
         "@type": "SoftwareApplication",
         "name": "Houston Alert",
@@ -152,18 +218,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       "@type": "BreadcrumbList",
       "@id": "https://devops.houstonalert.com/#breadcrumb",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "4th and Bailey", "item": "https://github.com/4thxBailey/" },
+        { "@type": "ListItem", "position": 1, "name": "4th and Bailey", "item": "https://houstonalert.com" },
         { "@type": "ListItem", "position": 2, "name": "Houston Alert",  "item": "https://houstonalert.com" },
         { "@type": "ListItem", "position": 3, "name": "DevOps Blog",    "item": "https://devops.houstonalert.com/" }
       ]
     },
     {
       "@type": "Organization",
-      "@id": "https://github.com/4thxBailey/",
+      "@id": "https://houstonalert.com/#org",
       "name": "4th and Bailey LLC",
-      "url": "https://github.com/4thxBailey/",
-      "sameAs": ["https://twitter.com/4thandBailey", "https://github.com/4thxBailey/"],
-      "foundingLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Houston", "addressRegion": "TX", "addressCountry": "US" } }
+      "url": "https://houstonalert.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://devops.houstonalert.com/icons/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "sameAs": [
+        "https://twitter.com/4thandBailey",
+        "https://github.com/4thxBailey/",
+        "https://houstonalert.com"
+      ],
+      "foundingLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Houston",
+          "addressRegion": "TX",
+          "addressCountry": "US"
+        }
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://houstonalert.com/#website",
+      "url": "https://houstonalert.com",
+      "name": "Houston Alert",
+      "description": "Real-time road, flood, and emergency alerts for the Houston metro area.",
+      "publisher": { "@id": "https://houstonalert.com/#org" }
     }
   ]
 }
@@ -180,13 +272,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 -->
 
-<!-- FAVICONS -->
-<link rel="icon" type="image/png" sizes="32x32"  href="/icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16"  href="/icons/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180"      href="/icons/apple-touch-icon.png">
-<link rel="icon" type="image/x-icon"              href="/favicon.ico">
-<meta name="theme-color" content="#0f6cbd">
-<meta name="msapplication-TileColor" content="#0f6cbd">
+<!-- ═══════════════════════════════════════════════════
+     FAVICONS & PWA ICONS
+     icon-512.png and icon-192.png: cyan concentric-circle
+     mark on #050810 background — uploaded to repo root
+     Generate remaining sizes at realfavicongenerator.net
+     ═══════════════════════════════════════════════════ -->
+<link rel="icon" type="image/png" sizes="512x512"  href="/icons/icon-512.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32"    href="/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16"    href="/icons/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="192x192"        href="/icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180"        href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon"                href="/favicon.ico">
+<link rel="manifest"                                href="/manifest.json">
+
+<!-- theme-color: matches top app bar (#0a0a0a) so browser chrome blends on mobile -->
+<meta name="theme-color"                    content="#0a0a0a">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f5f5">
+<meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#0a0a0a">
+
+<!-- PWA / mobile web app -->
+<meta name="mobile-web-app-capable"         content="yes">
+<meta name="apple-mobile-web-app-capable"   content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title"     content="Houston Alert DevOps">
+
+<!-- Microsoft / Windows tile -->
+<meta name="msapplication-TileColor"        content="#0a0a0a">
+<meta name="msapplication-TileImage"        content="/icons/icon-192.png">
+<meta name="msapplication-config"           content="/browserconfig.xml">
+
+<!-- ═══════════════════════════════════════════════════
+     HREFLANG — English canonical
+     Add es/es-MX variant when Spanish version published
+     (Houston is ~44% Spanish-speaking — high priority)
+     ═══════════════════════════════════════════════════ -->
+<link rel="alternate" hreflang="en"    href="https://devops.houstonalert.com/">
+<link rel="alternate" hreflang="en-US" href="https://devops.houstonalert.com/">
+<link rel="alternate" hreflang="x-default" href="https://devops.houstonalert.com/">
 
 <!-- DNS PREFETCH -->
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -197,7 +321,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Segoe UI is the v16 system font — Google Fonts fallback for non-Windows -->
+
+<!-- ═══════════════════════════════════════════════════
+     FONT PRELOAD — above-the-fold Inter weights
+     Preloading Inter 400 + 600 eliminates FOUT on LCP
+     text and improves Core Web Vitals (LCP, CLS).
+     Weights 300 + 500 load normally via stylesheet.
+     Fira Code loads deferred (only in code blocks).
+     ═══════════════════════════════════════════════════ -->
+<link rel="preload" as="font" type="font/woff2" crossorigin
+  href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin
+  href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fAZ9hiJ-Ek-_EeA.woff2">
+
+<!-- Segoe UI is the v16 system font — Google Fonts Inter as cross-platform fallback -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- sitemap: https://devops.houstonalert.com/sitemap.xml -->
