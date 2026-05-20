@@ -4,7 +4,7 @@
 
 > **Live site:** [devops.houstonalert.com](https://devops.houstonalert.com)  
 > **Product:** [houstonalert.com](https://houstonalert.com)  
-> **Organization:** [4th and Bailey](https://github.com/4thandBailey/)
+> **Organization:** [4th and Bailey](https://github.com/4thxBailey/)
 
 The engineering story behind [houstonalert.com](https://houstonalert.com) — a real-time infrastructure monitoring platform covering 160 Houston metro ZIP codes. This repository contains the source code for the DevOps blog published at `devops.houstonalert.com`.
 
@@ -17,7 +17,7 @@ The engineering story behind [houstonalert.com](https://houstonalert.com) — a 
 | 🔵 | **Lionel Mosley** | [@trust-lionel](https://github.com/trust-lionel) | Backend · Data Pipelines · Architecture |
 | 🔷 | **Nigel Brooks** | [@brookstrades-glitch](https://github.com/brookstrades-glitch) | Frontend · PWA · Mobile · UX |
 
-Built at **[4th and Bailey, LLC](https://github.com/4thxBailey/)** — Houston, TX.
+Built at **[4th and Bailey, LLC](https://github.com/4thandBailey/)** — Houston, TX.
 
 ---
 
@@ -25,10 +25,9 @@ Built at **[4th and Bailey, LLC](https://github.com/4thxBailey/)** — Houston, 
 
 ```
 devops-houston-alert/
-├── index.html              # DevOps blog — single deployable file
+├── index.html              # DevOps blog — main file
 ├── sitemap.xml             # Submit to Google Search Console & Bing
 ├── robots.txt              # Crawler policy
-├── netlify.toml            # Security headers, HTTPS redirect, cache rules
 ├── .well-known/
 │   └── security.txt        # RFC 9116 security disclosure (renew annually)
 └── README.md               # This file
@@ -142,37 +141,17 @@ The blog uses the **Fluent 2 / Material 3 hybrid** token layer from `index_v16.h
 
 ## Deployment
 
-This blog is deployed as a **static site** — a single `index.html` with no build step required. Deploy to any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages).
+This blog is a static site with no build step. The repository contains all files needed to serve the site — `index.html`, `sitemap.xml`, `robots.txt`, `manifest.json`, `browserconfig.xml`, and the `/icons/` folder.
 
-### Netlify (recommended)
+Deployment and hosting details are managed privately by 4th and Bailey and are not documented in this public repository.
 
-```bash
-# 1. Fork or clone this repository
-git clone https://github.com/4thxBailey/devops-houston-alert.git
+### Contributing
 
-# 2. Connect to Netlify — point to repository root
-# 3. Set custom domain: devops.houstonalert.com
-# 4. Security headers are pre-configured in netlify.toml
-```
+This is a public read-only repository. The `main` branch is protected. To report an issue or suggest a correction, open a GitHub Issue. Direct contributions via pull request are not accepted at this time.
 
-The included `netlify.toml` provides:
-- HTTPS-only redirect (HTTP → HTTPS, www → non-www)
-- Security headers: `X-Frame-Options`, `X-Content-Type-Options`, HSTS (2-year), full CSP
-- Cache rules: 1-year immutable TTL for assets, `must-revalidate` for HTML
+### Security
 
-### Security headers
-
-Verify deployment at [securityheaders.com](https://securityheaders.com) — target grade **A+**.
-
-### Before deploying — replace placeholder IDs
-
-Open `index.html` and replace:
-
-| Placeholder | Replace with | Where to get it |
-|---|---|---|
-| `GTM-XXXXXXX` | Your GTM Container ID | [tagmanager.google.com](https://tagmanager.google.com) |
-| `G-XXXXXXXXXX` | Your GA4 Measurement ID | Google Analytics 4 |
-| `XXXXXXXXXX` (Clarity) | Your Clarity Project ID | [clarity.microsoft.com](https://clarity.microsoft.com) |
+To report a security vulnerability, see [`.well-known/security.txt`](.well-known/security.txt) for the responsible disclosure contact and process. Do not open a public GitHub Issue for security matters.
 
 ---
 
@@ -195,17 +174,9 @@ Open `index.html` and replace:
 
 ---
 
-## Analytics Events (GA4 via GTM)
+## Analytics
 
-All events push to `window.dataLayer`. GTM reads them and fires GA4 events.
-
-| Event | Trigger |
-|---|---|
-| `article_view` | Page load — includes `article_title`, `article_author`, `article_date`, `brand`, `github_repo` |
-| `scroll_depth` | Fires at 25% / 50% / 75% / 90% / 100% — includes `depth_pct` |
-| `section_view` | Each `section[id]` enters viewport at 30% threshold — includes `section_id` |
-| `outbound_click` | Any link leaving `devops.houstonalert.com` — includes `link_url`, `link_text` |
-| `time_on_page` | Fires at 30s · 60s · 3min · 5min milestones — includes `seconds` |
+Houston Alert DevOps uses analytics to understand how readers engage with the content. Analytics implementation details are managed privately by 4th and Bailey.
 
 ---
 
@@ -227,7 +198,7 @@ The `og-image.png` at the repo root serves three purposes:
 
 **3. Open Graph & Twitter card** — referenced in `<meta property="og:image">` and `<meta name="twitter:image">` so shares on LinkedIn, X, Slack, iMessage, and Discord all render the full 1200×630px preview card.
 
-To update the image: replace `og-image.png` at the repo root and push. Netlify redeploys in under 60 seconds. Then force-rescrape the URL at [developers.facebook.com/tools/debug](https://developers.facebook.com/tools/debug) to clear cached previews.
+To update the image: replace `og-image.png` at the repo root and push. Then force-rescrape the URL at [developers.facebook.com/tools/debug](https://developers.facebook.com/tools/debug) to clear cached previews.
 
 ---
 
